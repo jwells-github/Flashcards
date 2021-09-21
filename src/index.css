@@ -11,3 +11,46 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.entranceForm{
+  min-height: 19em;
+  width: 30em;
+  max-width: 100%;
+  margin: 0 auto;
+  border: 1px solid black;
+}
+.selectionButtons{
+  display:flex;
+  justify-content: center;
+}
+
+.selectionButtons h2{
+  padding: 1em 2em;
+  margin: 0;
+  width:50%;
+  border-bottom: 1px solid black;
+}
+.selectionButtons h2:first-child{
+  border-right:1px solid black;
+}
+.loginField, .signUpField{
+  display:flex;
+  flex-direction:column;
+  text-align: left;
+  margin: 0 .5em;
+}
+.loginField input, .signUpField input{
+  font-size:25px;
+}
+.loginForm button, .signUpForm button{
+  display: block;
+  margin-right: 0.6em;
+  margin-left: auto;
+  margin-top: .5em;
+  margin-bottom: .5em;
+  font-size: 17px;
+  width: 5em;
+  height: 2em;
+}
+.faded{
+  color: #0000002e;
+}
