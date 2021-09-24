@@ -9,6 +9,8 @@ var cookieParser = require('cookie-parser');
 require('./passport')(passport);
 const bcrypt = require('bcryptjs');
 const User = require('./models/user');
+const Flashcard = require('./models/flashcard');
+const { findOne } = require('./models/user');
 
 dotenv.config();
 mongoose.connect(process.env.mongoDB);
@@ -36,7 +38,6 @@ app.post('/signup', (req,res,next) =>{
         if(err) return next(err);
         req.login(user, function(err){
           if(err) return next(err);
-          res.setHeader('Content-Type', 'application/json');
           res.send(JSON.stringify({ loggedIn: true, username: req.user.username }));
         })
       })
@@ -44,14 +45,38 @@ app.post('/signup', (req,res,next) =>{
   })
 });
 
+app.post('/flashcards/create', (req,res,next) =>{
+  if(!req.user){
+    return res.status(400); 
+  }
+  var flashcard = new Flashcard({
+    cardFront: req.body.cardFront,
+    cardBack: req.body.cardBack,
+    cardDeck: req.body.cardDeck,
+    owner: req.user.id,
+  })
+  flashcard.save(function(err){
+    if(err) return next(err);
+    res.send(JSON.stringify(flashcard))
+  })
+})
+
+app.get('/flashcards/get', (req,res) =>{
+  if(!req.user){
+    return res.status(400); 
+  }
+  Flashcard.find({owner: req.user.id}).then(savedFlashcards =>{
+    res.send(JSON.stringify({flashcards: savedFlashcards }));
+  });
+})
 
 app.post('/login', passport.authenticate("local", {session: true, failWithError: true}),
+  // Login succeeded
   function(req,res,next){
-    console.log('pass')
     return res.send(JSON.stringify({ loggedIn: true, username: req.user.username }));
   },
+  // Login failed
   function(err,req,res,next){
-    console.log('fail')
     let statusCode = err.status || 500;
     return res.status(statusCode).json({ loggedIn: false, formError: 'Login details are incorrect' })
   });
@@ -62,7 +87,6 @@ app.get('/logout', function(req,res){
 });
 
 app.get('/user', function(req,res){
-  console.log(req.user === undefined)
   if(req.user){
     res.send(JSON.stringify({ loggedIn: true, username: req.user.username }));
   }
@@ -72,13 +96,12 @@ app.get('/user', function(req,res){
 })
 
 app.get('/api/greeting', (req, res) => {
-  console.log(req.user)
   const name = req.query.name || 'World';
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
 });
 
-const Flashcard = require('./models/flashcard');
+
 
 app.get('/flashcard', (req,res) =>{
   const f = req.query.name || '';
