@@ -38,11 +38,11 @@ class SignUpForm extends Component {
           return(
             <div className="signUpForm">
               <form onSubmit={this.signUp}>
-                <div className="signUpField">
+                <div className="formField">
                   <label htmlFor="signUpUsername">Username:</label>
                   <input name="signUpUsername"type="text" onChange={this.handleChange}/>
                 </div>
-                <div className="signUpField">
+                <div className="formField">
                   <label htmlFor="signUpFieldPassword">Password:</label>
                   <input name="signUpFieldPassword" type="password" onChange={this.handleChange}/>
                 </div>
