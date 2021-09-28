@@ -63,6 +63,6 @@ code {
 .formSuggestion span:hover{
   background:grey;
 }
-#red{
+#InputSuggestion-Selected{
   background: red;
 }
