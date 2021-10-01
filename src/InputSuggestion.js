@@ -47,7 +47,7 @@ class InputSuggestion extends Component {
         this.setState({ 
             InputValue: event.target.value,
             selectedSuggestion: 0,
-            filteredData : this.props.dataArray.filter(data => data.match(new RegExp(event.target.value)))
+            filteredData : this.props.dataArray.filter(data => data.match(new RegExp(event.target.value,"i")))
          });
     }
 
