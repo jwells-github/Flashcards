@@ -10,36 +10,6 @@ class InputSuggestion extends Component {
         };
         this.updateSuggestions = this.updateSuggestions.bind(this);
         this.useSuggestion = this.useSuggestion.bind(this);
-        this.handleSuggestionInput = this.handleSuggestionInput.bind(this);
-    }
-
-    handleSuggestionInput(event){
-        event.preventDefault();
-        let downKey = event.key === "Down" || event.key === "ArrowDown"
-        let upKey = event.key === "Up" || event.key === "ArrowUp"
-        let enterKey = event.key === "Enter";
-        if(downKey){
-            if(this.state.filteredData.length <= this.state.selectedSuggestion){
-                return;
-            }
-            this.setState(prevState =>({
-                selectedSuggestion: prevState.selectedSuggestion +1
-            }));
-        }
-        if(upKey){
-            if(this.state.selectedSuggestion <= 0){
-                return;
-            }
-            this.setState(prevState =>({
-                selectedSuggestion: prevState.selectedSuggestion -1
-            }));
-        }
-        if(enterKey){
-            if(this.state.selectedSuggestion === 0 ){
-                return;
-            }
-            this.useSuggestion(this.state.filteredData[this.state.selectedSuggestion -1] )
-        }
     }
 
     updateSuggestions(event){
@@ -62,7 +32,7 @@ class InputSuggestion extends Component {
           return(
             <div className="formField">
                 <label htmlFor={this.props.fieldName}>{this.props.fieldName}:</label>
-                <input onKeyUp={this.handleSuggestionInput} name={this.props.fieldName} type="text" value={this.props.InputValue} onChange={this.updateSuggestions} autoComplete="off"/>
+                <input name={this.props.fieldName} type="text" value={this.props.InputValue} onChange={this.updateSuggestions} autoComplete="off"/>
                 <div className="formSuggestion">
                     {this.state.filteredData.map((item, index) => 
                         <span

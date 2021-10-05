@@ -61,6 +61,15 @@ app.post('/flashcards/create', (req,res,next) =>{
   })
 })
 
+app.post('/flashcards/delete',(req,res,next) =>{
+  if(!req.user) return res.status(400).json({ success: false, message: 'You are not logged in'}); 
+  if(!req.user._id.equals(req.body.owner)) return res.status(400).json({ success: false, message: 'You do not have permission to do that'}); 
+  Flashcard.deleteOne({_id: req.body.cardId}, function(err){
+    if(err) return res.status(400).json({ success: false, message: 'There was an error when attempting to delete this flashcard'});
+    res.send(JSON.stringify({success: true, message: 'Flashcard successfully deleted'}))
+  })
+})
+
 app.get('/flashcards/get', (req,res) =>{
   if(!req.user){
     return res.status(400); 

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import DeckView from './DeckView';
 import InputSuggestion from './InputSuggestion';
 class FlashcardMenu extends Component {
     constructor(props){
@@ -6,15 +7,16 @@ class FlashcardMenu extends Component {
         this.state = {
             flashcards: [],
             decks: [],
-            filteredDecks: [],
             cardFront: '',
             cardBack: '',
             cardDeck: '',
-            selectedSuggestion: 0,
+            deckSelected: false,
+            selectedDeck: ''
         };
         this.createFlashcard = this.createFlashcard.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.updateCardDeck = this.updateCardDeck.bind(this);
+        this.removeFlashcard = this.removeFlashcard.bind(this);
     }
 
     componentDidMount(){
@@ -26,13 +28,23 @@ class FlashcardMenu extends Component {
             .then(response => {
                 this.setState({
                     flashcards: response.flashcards,
-                    decks: [...new Set(response.flashcards.map(card => card.cardDeck))] 
+                    decks: this.getDeckNames(response.flashcards)
                 });
                 
             });
-        
     }
 
+    getDeckNames(flashcards){
+        return [...new Set(flashcards.map(card => card.cardDeck))] 
+    }
+
+    removeFlashcard(cardId){
+        let filteredFlashcards = this.state.flashcards.filter(card => !card._id.match(cardId));
+        this.setState({
+            flashcards: filteredFlashcards,
+            decks: this.getDeckNames(filteredFlashcards)
+        })
+    }
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
@@ -66,29 +78,57 @@ class FlashcardMenu extends Component {
     updateCardDeck(value){
         this.setState({cardDeck:value})
     }
+    updateSelectionInProgress(bool){
+        console.log('hmmm')
+        this.setState({selectionInProgress :bool})
+    }
+    selectDeck(deck){
+        this.setState({deckSelected: true, selectedDeck: deck})
+    }
     render(){
-          return(
-            <div className="entranceForm">
-                <h2>Hi</h2>
-                <form onSubmit={this.createFlashcard}>
-                    <div className="formField">
-                        <label htmlFor="cardFront">Front Text:</label>
-                        <input name="cardFront" type="text" value={this.state.cardFront} onChange={this.handleChange}/>
+        if(this.state.deckSelected){
+            return(
+                <div>
+                    <DeckView
+                        cards={this.state.flashcards.filter(card => card.cardDeck === this.state.selectedDeck)}
+                        removeFlashcard = {this.removeFlashcard}/>
+                </div>
+               )
+        }
+        else{
+            return(
+                <div>
+                    <div className="entranceForm">
+                        <h2>Hi</h2>
+                        <form onSubmit={this.createFlashcard}>
+                            <div className="formField">
+                                <label htmlFor="cardFront">Front Text:</label>
+                                <input name="cardFront" type="text" value={this.state.cardFront} onChange={this.handleChange}/>
+                            </div>
+                            <div className="formField">
+                                <label htmlFor="cardBack">Back Text:</label>
+                                <input name="cardBack" type="text" value={this.state.cardBack} onChange={this.handleChange}/>
+                            </div>
+                            <InputSuggestion
+                                InputValue={this.state.cardDeck}
+                                fieldName = {"Deck"}
+                                dataArray ={this.state.decks}
+                                updateInputValue = {this.updateCardDeck}
+                            />                 
+                            <button type="submit">Create Card</button>
+                        </form>
                     </div>
-                    <div className="formField">
-                        <label htmlFor="cardBack">Back Text:</label>
-                        <input name="cardBack" type="text" value={this.state.cardBack} onChange={this.handleChange}/>
+                    <div className="decks">
+                        {this.state.decks.map((deck,index) =>
+                            <div className="deck" key={index}>
+                                <span onClick={()=>this.selectDeck(deck)}>{deck}</span>
+                            </div>
+                        )}
                     </div>
-                    <InputSuggestion
-                        fieldName = {"Deck"}
-                        dataArray ={this.state.decks}
-                        returnValue = {this.updateCardDeck}
-                    />                 
-                    <button type="submit">Create Card</button>
-                </form>
-                {this.state.decks}
-            </div>
-          )
+                </div>
+               )
+        }
+
       }
 }
 
