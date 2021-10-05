@@ -6,7 +6,6 @@ class InputSuggestion extends Component {
         super(props);
         this.state = {
             filteredData: [],
-            InputValue: '',
             selectedSuggestion: 0,
         };
         this.updateSuggestions = this.updateSuggestions.bind(this);
@@ -45,26 +44,25 @@ class InputSuggestion extends Component {
 
     updateSuggestions(event){
         this.setState({ 
-            InputValue: event.target.value,
             selectedSuggestion: 0,
             filteredData : this.props.dataArray.filter(data => data.match(new RegExp(event.target.value,"i")))
          });
+         this.props.updateInputValue(event.target.value);
     }
 
     useSuggestion(suggestion){
         this.setState({
-            InputValue:suggestion,
             selectedSuggestion: 0,
             filteredData: []
         })
-        this.props.returnValue(suggestion)
+        this.props.updateInputValue(suggestion)
     }
 
       render(){
           return(
             <div className="formField">
                 <label htmlFor={this.props.fieldName}>{this.props.fieldName}:</label>
-                <input onKeyUp={this.handleSuggestionInput} name={this.props.fieldName} type="text" value={this.state.InputValue} onChange={this.updateSuggestions} autoComplete="off"/>
+                <input onKeyUp={this.handleSuggestionInput} name={this.props.fieldName} type="text" value={this.props.InputValue} onChange={this.updateSuggestions} autoComplete="off"/>
                 <div className="formSuggestion">
                     {this.state.filteredData.map((item, index) => 
                         <span
