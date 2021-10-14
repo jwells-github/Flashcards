@@ -1,17 +1,16 @@
 import React, {Component} from 'react'
 import DeckView from './DeckView';
-import InputSuggestion from './InputSuggestion';
+import FlashcardForm from './FlashcardForm';
+
 class FlashcardMenu extends Component {
     constructor(props){
         super(props);
         this.state = {
             flashcards: [],
             decks: [],
-            cardFront: '',
-            cardBack: '',
-            cardDeck: '',
             deckSelected: false,
-            selectedDeck: ''
+            selectedDeck: '',
+            cardCreatedSuccessfully: undefined,
         };
         this.createFlashcard = this.createFlashcard.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -54,32 +53,29 @@ class FlashcardMenu extends Component {
         this.setState(prevState => ({
             flashcards: [...prevState.flashcards, card],
             decks: [...new Set([...prevState.decks, card.cardDeck])],
-            cardFront: '',
-            cardBack: '',
-            cardDeck: '',
-
+            cardCreatedSuccessfully:true
         }));
     }
 
-    createFlashcard(event){
-        event.preventDefault();
-        if(this.state.cardFront === '' || this.state.cardBack === '' || this.state.cardDeck === '') return;
-        fetch("/flashcards/create",{
-          method: 'POST',
-          withCredentials: true,
-          credentials: 'include',
-          headers:{
-            'Accept': 'application/json',
-            'Content-Type':'application/json'
-          },
-          body: JSON.stringify({cardFront: this.state.cardFront, cardBack: this.state.cardBack, cardDeck: this.state.cardDeck}) 
-        }).then(response => response.json()).then(response => this.addFlashcard(response));
+    createFlashcard(cardFront, cardBack, cardDeck){
+        this.setState({cardCreatedSuccessfully: undefined}, () =>{
+            fetch("/flashcards/create",{
+                method: 'POST',   
+                withCredentials: true,
+                credentials: 'include',
+                headers:{
+                    'Accept': 'application/json',
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({cardFront: cardFront, cardBack: cardBack, cardDeck: cardDeck}) 
+                }).then(response => response.json()).then(response => 
+                    this.addFlashcard(response));
+        });
     }
     updateCardDeck(value){
         this.setState({cardDeck:value})
     }
     updateSelectionInProgress(bool){
-        console.log('hmmm')
         this.setState({selectionInProgress :bool})
     }
     selectDeck(deck){
@@ -91,33 +87,19 @@ class FlashcardMenu extends Component {
                 <div>
                     <DeckView
                         cards={this.state.flashcards.filter(card => card.cardDeck === this.state.selectedDeck)}
-                        removeFlashcard = {this.removeFlashcard}/>
+                        removeFlashcard = {this.removeFlashcard}
+                        decks={this.state.decks}/>
                 </div>
                )
         }
         else{
             return(
                 <div>
-                    <div className="entranceForm">
-                        <h2>Hi</h2>
-                        <form onSubmit={this.createFlashcard}>
-                            <div className="formField">
-                                <label htmlFor="cardFront">Front Text:</label>
-                                <input name="cardFront" type="text" value={this.state.cardFront} onChange={this.handleChange}/>
-                            </div>
-                            <div className="formField">
-                                <label htmlFor="cardBack">Back Text:</label>
-                                <input name="cardBack" type="text" value={this.state.cardBack} onChange={this.handleChange}/>
-                            </div>
-                            <InputSuggestion
-                                InputValue={this.state.cardDeck}
-                                fieldName = {"Deck"}
-                                dataArray ={this.state.decks}
-                                updateInputValue = {this.updateCardDeck}
-                            />                 
-                            <button type="submit">Create Card</button>
-                        </form>
-                    </div>
+                    <FlashcardForm
+                        decks={this.state.decks} 
+                        returnCard={this.createFlashcard}
+                        cardHandlingSuccess={this.state.cardCreatedSuccessfully}
+                    />
                     <div className="decks">
                         {this.state.decks.map((deck,index) =>
                             <div className="deck" key={index}>
