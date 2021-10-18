@@ -7,7 +7,7 @@ class FlashcardForm extends Component {
         this.state = {
             cardFront: this.props.cardFront,
             cardBack: this.props.cardBack,
-            cardDeck: this.props.cardBack,
+            cardDeck: this.props.cardDeck,
         };
         this.handleChange = this.handleChange.bind(this);
         this.updateCardDeck = this.updateCardDeck.bind(this);
@@ -25,7 +25,6 @@ class FlashcardForm extends Component {
         }
       }
     
-      componentDidMount
     
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
@@ -56,7 +55,7 @@ class FlashcardForm extends Component {
                         dataArray ={this.props.decks}
                         updateInputValue = {this.updateCardDeck}
                     />                 
-                    <button type="submit">Create Card</button>
+                    <button type="submit">Submit Card</button>
                 </form>
             </div>
           )

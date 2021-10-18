@@ -70,6 +70,18 @@ app.post('/flashcards/delete',(req,res,next) =>{
   })
 })
 
+app.post('/flashcards/edit',(req,res,next) =>{
+  if(!req.user) return res.status(400).json({ success: false, message: 'You are not logged in'}); 
+  if(!req.user._id.equals(req.body.owner)) return res.status(400).json({ success: false, message: 'You do not have permission to do that'}); 
+  Flashcard.findOneAndUpdate({_id: req.body.cardId}, 
+    {cardFront:req.body.cardFront, cardBack: req.body.cardBack, cardDeck: req.body.cardDeck},
+    {new: true}, 
+    function(err, card){
+      if(err) return res.status(400).json({ success: false, message: 'There was an error when attempting to edit this flashcard'});
+      res.send(JSON.stringify({success: true, card: card}))
+  });
+})
+
 app.get('/flashcards/get', (req,res) =>{
   if(!req.user){
     return res.status(400); 

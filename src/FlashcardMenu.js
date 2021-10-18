@@ -16,6 +16,7 @@ class FlashcardMenu extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.updateCardDeck = this.updateCardDeck.bind(this);
         this.removeFlashcard = this.removeFlashcard.bind(this);
+        this.editFlashcard = this.editFlashcard.bind(this);
     }
 
     componentDidMount(){
@@ -43,6 +44,13 @@ class FlashcardMenu extends Component {
             flashcards: filteredFlashcards,
             decks: this.getDeckNames(filteredFlashcards)
         })
+    }
+
+    editFlashcard(cardId, card){
+        let editedFlashcards = this.state.flashcards.slice();
+        let index = editedFlashcards.findIndex(card => card._id.match(cardId));
+        editedFlashcards[index] = card
+        this.setState({flashcards: editedFlashcards})
     }
 
     handleChange(event) {
@@ -88,7 +96,9 @@ class FlashcardMenu extends Component {
                     <DeckView
                         cards={this.state.flashcards.filter(card => card.cardDeck === this.state.selectedDeck)}
                         removeFlashcard = {this.removeFlashcard}
-                        decks={this.state.decks}/>
+                        editFlashcard={this.editFlashcard}
+                        decks={this.state.decks}
+                        />
                 </div>
                )
         }
