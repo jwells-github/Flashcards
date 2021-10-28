@@ -18,6 +18,12 @@ class DeckView extends Component {
         this.setEditCard = this.setEditCard.bind(this);
     }
 
+    
+    componentDidMount(){
+        window.history.pushState({}, document.title)
+        window.onpopstate = this.props.exitDeckView;
+    }
+
     deleteCard(card){
         if(window.confirm("Are you sure you want to delete this card?\r\n" + card.cardFront + "\r\n" + card.cardBack)){
             fetch("/flashcards/delete",{
@@ -98,9 +104,10 @@ class DeckView extends Component {
         }
         return(
         <div className="">
+            <span onClick={this.props.exitDeckView}>Back</span>
             <table>
                 <thead>
-                    <tr>
+                    <tr>    
                         <th>Front</th>
                         <th>Back</th>
                         <th>Created</th>

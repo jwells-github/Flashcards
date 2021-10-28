@@ -17,6 +17,7 @@ class FlashcardMenu extends Component {
         this.updateCardDeck = this.updateCardDeck.bind(this);
         this.removeFlashcard = this.removeFlashcard.bind(this);
         this.editFlashcard = this.editFlashcard.bind(this);
+        this.exitDeckView = this.exitDeckView.bind(this);
     }
 
     componentDidMount(){
@@ -32,6 +33,7 @@ class FlashcardMenu extends Component {
                 });
                 
             });
+        window.onpopstate = () => console.log('??');
     }
 
     getDeckNames(flashcards){
@@ -89,6 +91,10 @@ class FlashcardMenu extends Component {
     selectDeck(deck){
         this.setState({deckSelected: true, selectedDeck: deck})
     }
+    exitDeckView(){
+        window.history.forward()
+        this.setState({deckSelected: false, selectedDeck: ''})
+    }
     render(){
         if(this.state.deckSelected){
             return(
@@ -98,6 +104,7 @@ class FlashcardMenu extends Component {
                         removeFlashcard = {this.removeFlashcard}
                         editFlashcard={this.editFlashcard}
                         decks={this.state.decks}
+                        exitDeckView ={this.exitDeckView}
                         />
                 </div>
                )
