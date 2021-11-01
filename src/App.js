@@ -1,4 +1,5 @@
 import './App.css';
+import './Styles.css';
 import React, {Component} from 'react'
 import EntranceForm from './EntranceForm';
 import FlashcardMenu from './FlashcardMenu';
@@ -29,7 +30,13 @@ class App extends Component {
     let body = !this.state.loggedIn ? <EntranceForm setLoginStatus={this.setLoginStatus}/> : <FlashcardMenu/>
     return (
       <div className="App"> 
-        <h1>{this.state.loggedIn ? "You are logged in" : ""}</h1>
+        <div className="header">
+          <div>
+            <span>Flashcard App</span></div>
+          <div>
+            <span>{this.state.loggedIn ? "You are logged in" : ""}</span>
+          </div>
+        </div>
         {body}
       </div>
     );
