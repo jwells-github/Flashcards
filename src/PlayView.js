@@ -95,8 +95,8 @@ class PlayView extends Component{
             let answerAccuracy =  (this.state.correctGuesses / (this.state.correctGuesses + this.state.incorrectGuesses)) * 100
             return(
                 <div>
-                    <button onClick={() => this.resetPlayView()}>Replay</button>
-                    <button onClick={() => this.props.exitView()}>Exit</button>
+                    <button onClick={this.resetPlayView}>Replay</button>
+                    <button onClick={this.props.exitView}>Exit</button>
                     <h1>{answerAccuracy}% of answers were correct </h1>
 
                 </div>

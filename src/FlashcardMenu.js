@@ -11,7 +11,7 @@ class FlashcardMenu extends Component {
             decks: [],
             playMode: false,
             deckSelected: false,
-            selectedDeck: '',
+            selectedCards: [],
             cardCreatedSuccessfully: undefined,
         };
         this.createFlashcard = this.createFlashcard.bind(this);
@@ -22,6 +22,7 @@ class FlashcardMenu extends Component {
         this.exitDeckView = this.exitDeckView.bind(this);
         this.exitPlayView = this.exitPlayView.bind(this);
         this.playDeck = this.playDeck.bind(this);
+        this.playAllCards = this.playAllCards.bind(this);
     }
 
     componentDidMount(){
@@ -102,16 +103,19 @@ class FlashcardMenu extends Component {
         }
         this.setState({playMode: true})
     }
+    playAllCards(){
+        this.setState({deckSelected: true, selectedCards: this.state.flashcards, playMode: true})
+    }
     selectDeck(deck){
-        this.setState({deckSelected: true, selectedDeck: deck})
+        this.setState({deckSelected: true, selectedCards: this.state.flashcards.filter(card => card.cardDeck === deck)})
     }
     exitDeckView(){
         window.history.forward()
-        this.setState({deckSelected: false, selectedDeck: ''})
+        this.setState({deckSelected: false, selectedCards: []})
     }
     exitPlayView(){
         window.history.forward()
-        this.setState({deckSelected: false, selectedDeck: '', playMode: false})
+        this.setState({deckSelected: false, selectedCards: [], playMode: false})
     }
     render(){
         if(this.state.deckSelected){
@@ -120,7 +124,7 @@ class FlashcardMenu extends Component {
                     <div>
                         <h1>PlayMode</h1>
                         <PlayView
-                            cards={this.state.flashcards.filter(card => card.cardDeck === this.state.selectedDeck)}
+                            cards={this.state.selectedCards}
                             exitView={this.exitPlayView}
                         />
                     </div>
@@ -130,7 +134,7 @@ class FlashcardMenu extends Component {
                 return(
                     <div>
                         <DeckView
-                            cards={this.state.flashcards.filter(card => card.cardDeck === this.state.selectedDeck)}
+                            cards={this.state.selectedCards}
                             removeFlashcard = {this.removeFlashcard}
                             editFlashcard={this.editFlashcard}
                             decks={this.state.decks}
@@ -143,6 +147,7 @@ class FlashcardMenu extends Component {
         else{
             return(
                 <div>
+                    <button onClick={this.playAllCards}>Play All</button>
                     <FlashcardForm
                         decks={this.state.decks} 
                         returnCard={this.createFlashcard}
@@ -151,10 +156,10 @@ class FlashcardMenu extends Component {
                     <div className="decks">
                         {this.state.decks.map((deck,index) =>
                             <div className="deck" key={index}>
-                                <span >{deck.deckName}</span>
+                                <span>{deck.deckName}</span>
                                 <span>{deck.count} {deck.count > 1 ? "cards" : "card"}</span>
-                                <button onClick={() =>this.playDeck(deck.deckName)}>Play Deck</button>
-                                <button onClick={()=>this.selectDeck(deck.deckName)}>Edit Deck</button>
+                                <button onClick={() => this.playDeck(deck.deckName)}>Play Deck</button>
+                                <button onClick={() => this.selectDeck(deck.deckName)}>Edit Deck</button>
                             </div>
                         )}
                     </div>
