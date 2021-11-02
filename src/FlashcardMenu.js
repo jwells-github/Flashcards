@@ -134,7 +134,7 @@ class FlashcardMenu extends Component {
                             removeFlashcard = {this.removeFlashcard}
                             editFlashcard={this.editFlashcard}
                             decks={this.state.decks}
-                            exitDeckView ={this.exitDeckView}
+                            exitView ={this.exitDeckView}
                             />
                     </div>
                    )

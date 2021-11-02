@@ -21,7 +21,7 @@ class DeckView extends Component {
     
     componentDidMount(){
         window.history.pushState({}, document.title)
-        window.onpopstate = this.props.exitDeckView;
+        window.onpopstate = this.props.exitView;
     }
 
     deleteCard(card){
@@ -104,7 +104,7 @@ class DeckView extends Component {
         }
         return(
         <div className="">
-            <span onClick={this.props.exitDeckView}>Back</span>
+            <span onClick={this.props.exitView}>Back</span>
             <table>
                 <thead>
                     <tr>    
