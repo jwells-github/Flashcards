@@ -39,8 +39,45 @@ html, body{
 }
 .flashCard{
     width: 500px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     align-self: center;
     background: white;
     border: 1px dotted black;
-    box-shadow: 1px 2px 5px black
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+    -khtml-user-select: none;
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
+}
+.cardText{
+    font-size:24px;
+    font-weight:600;
+}
+.cardInfo{
+    color: #606060;
+}
+.cardContainer{
+    display:flex;
+    box-shadow: 1px 2px 5px black;
+}
+.leftCardButton{
+    order: -1;
+}
+.cardButtons button{
+    height:100%;
+    width: 72px;
+    font-size:15px;
+}
+.buttonIncorrect{
+    background:#e53434;
+}
+.buttonCorrect{
+    background:#15dd52;
+}
+.buttonInactive{
+    opacity:0.5;
 }
