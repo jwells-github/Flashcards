@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import Flashcard from './Flashcard';
 
 class PlayView extends Component{
     constructor(props){
@@ -13,10 +14,10 @@ class PlayView extends Component{
             correctGuesses: 0,
             incorrectGuesses: 0,
         };
-        this.flipCard = this.flipCard.bind(this);
         this.cardResult = this.handleCardResult.bind(this);
         this.handleEndOfCards = this.handleEndOfCards.bind(this);
         this.resetPlayView = this.resetPlayView.bind(this);
+        this.handleCardResult = this.handleCardResult.bind(this);
     }
 
     componentDidMount(){
@@ -38,13 +39,6 @@ class PlayView extends Component{
         return shuffledCards;
     }
 
-    flipCard(){
-        this.setState(prevState => ({
-            showCardReverse: !prevState.showCardReverse,
-            actionTaken: true
-        }));
-    }
-    
     handleEndOfCards(){
         if(this.state.cardsToBeReplayed.length < 1){
             this.setState({displayEndDialogue: true})
@@ -93,29 +87,23 @@ class PlayView extends Component{
         
         if(this.state.displayEndDialogue){
             let answerAccuracy =  (this.state.correctGuesses / (this.state.correctGuesses + this.state.incorrectGuesses)) * 100
+            answerAccuracy = Math.round(answerAccuracy * 100) / 100 // Round to 2 decimal places
             return(
                 <div>
                     <button onClick={this.resetPlayView}>Replay</button>
                     <button onClick={this.props.exitView}>Exit</button>
                     <h1>{answerAccuracy}% of answers were correct </h1>
-
                 </div>
             )
         }
         else{
-            let card = this.state.cardsInPlay[this.state.positionInCards]
             return(
                 <div className="playView">
-                    <div className="flashCard" onClick={this.flipCard}>
-                        <span>{!this.state.showCardReverse ? "front" : "back"}</span>
-                        <h1>{!this.state.showCardReverse ?  card.cardFront : card.cardBack}</h1>
-                    </div>
-                    <div className="cardButtons">
-                        <button onClick={() => this.handleCardResult(false)}>Incorrect</button>
-                        <button onClick={() => this.handleCardResult(true)}>Correct</button>
-                    </div>
+                    <Flashcard 
+                        card={this.state.cardsInPlay[this.state.positionInCards]}
+                        handleCardResult={this.handleCardResult}/>
                     <h2>{this.state.cardsInPlay.length - this.state.positionInCards + this.state.cardsToBeReplayed.length} Cards remaining</h2>
-                </div>  
+                </div>
             )
         }
 
