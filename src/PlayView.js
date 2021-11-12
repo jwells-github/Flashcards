@@ -13,11 +13,14 @@ class PlayView extends Component{
             displayEndDialogue: false,
             correctGuesses: 0,
             incorrectGuesses: 0,
+            mouseX: 0,
+            mouseY: 0
         };
         this.cardResult = this.handleCardResult.bind(this);
         this.handleEndOfCards = this.handleEndOfCards.bind(this);
         this.resetPlayView = this.resetPlayView.bind(this);
         this.handleCardResult = this.handleCardResult.bind(this);
+        this.updateMousePosition = this.updateMousePosition.bind(this);
     }
 
     componentDidMount(){
@@ -83,6 +86,10 @@ class PlayView extends Component{
             incorrectGuesses: 0,
         })
     }
+
+    updateMousePosition(event){
+        this.setState({mouseX : event.screenX, mouseY : event.screenY})
+    }
     render(){
         
         if(this.state.displayEndDialogue){
@@ -98,10 +105,16 @@ class PlayView extends Component{
         }
         else{
             return(
-                <div className="playView">
-                    <Flashcard 
-                        card={this.state.cardsInPlay[this.state.positionInCards]}
-                        handleCardResult={this.handleCardResult}/>
+                <div onMouseMove={this.updateMousePosition} className="playView">
+                    <div className="maskLevel">
+                        <div className="mask"></div>
+                        <Flashcard 
+                            card={this.state.cardsInPlay[this.state.positionInCards]}
+                            handleCardResult={this.handleCardResult}
+                            mouseX = {this.state.mouseX}/>
+                        <div className="mask"></div>
+                    </div>
+
                     <h2>{this.state.cardsInPlay.length - this.state.positionInCards + this.state.cardsToBeReplayed.length} Cards remaining</h2>
                 </div>
             )

@@ -121,13 +121,9 @@ class FlashcardMenu extends Component {
         if(this.state.deckSelected){
             if(this.state.playMode){
                 return(
-                    <div>
-                        <h1>PlayMode</h1>
                         <PlayView
                             cards={this.state.selectedCards}
-                            exitView={this.exitPlayView}
-                        />
-                    </div>
+                            exitView={this.exitPlayView}/>
                 )
             }
             else{
