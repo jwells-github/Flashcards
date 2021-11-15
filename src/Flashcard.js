@@ -18,6 +18,10 @@ class Flashcard extends Component {
         this.FlashCardRef = React.createRef();
     }
 
+    componentWillUnmount(){
+        document.removeEventListener("mouseup", this.stopDragging);
+    }
+
     flipCard(){
         if(this.state.commitedToDragging){
             this.setState({commitedToDragging : false})
