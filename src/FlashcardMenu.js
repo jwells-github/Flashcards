@@ -13,6 +13,7 @@ class FlashcardMenu extends Component {
             deckSelected: false,
             selectedCards: [],
             cardCreatedSuccessfully: undefined,
+            displayCardForm: false,
         };
         this.createFlashcard = this.createFlashcard.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -23,6 +24,8 @@ class FlashcardMenu extends Component {
         this.exitPlayView = this.exitPlayView.bind(this);
         this.playDeck = this.playDeck.bind(this);
         this.playAllCards = this.playAllCards.bind(this);
+        this.hideFlashcardForm = this.hideFlashcardForm.bind(this);
+        this.showFlashcardForm = this.showFlashcardForm.bind(this);
     }
 
     componentDidMount(){
@@ -71,7 +74,7 @@ class FlashcardMenu extends Component {
     addFlashcard(card){
         this.setState(prevState => ({
             flashcards: [...prevState.flashcards, card],
-            //decks: [...new Set([...prevState.decks, card.cardDeck])],
+            decks: this.getDeckNames([...prevState.flashcards, card]),
             cardCreatedSuccessfully:true
         }));
     }
@@ -117,6 +120,12 @@ class FlashcardMenu extends Component {
         window.history.forward()
         this.setState({deckSelected: false, selectedCards: [], playMode: false})
     }
+    hideFlashcardForm(){
+        this.setState({displayCardForm:false})
+    }
+    showFlashcardForm(){
+        this.setState({displayCardForm:true})
+    }
     render(){
         if(this.state.deckSelected){
             if(this.state.playMode){
@@ -142,10 +151,13 @@ class FlashcardMenu extends Component {
         }
         else{
             return(
-                <div>
+                <div className="flashcardMenu">
+                    <button onClick={this.showFlashcardForm}>Add a flashcard</button>
                     <button onClick={this.playAllCards}>Play All</button>
                     <FlashcardForm
-                        decks={this.state.decks} 
+                        hideOverlay = {this.hideFlashcardForm}
+                        displayForm = {this.state.displayCardForm}
+                        decks={this.state.decks.map(deck => deck.deckName)} 
                         returnCard={this.createFlashcard}
                         cardHandlingSuccess={this.state.cardCreatedSuccessfully}
                     />

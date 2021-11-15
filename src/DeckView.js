@@ -95,12 +95,12 @@ class DeckView extends Component {
         if(this.state.showEditForm){
             editForm =
             <FlashcardForm
-            decks={this.props.decks} 
-            returnCard={this.editCard}
-            cardHandlingSuccess={this.state.cardEditedSuccessfully}
-            cardFront={this.state.cardToEdit.cardFront}
-            cardBack={this.state.cardToEdit.cardBack}
-            cardDeck ={this.state.cardToEdit.cardDeck}/>
+                decks={this.props.decks} 
+                returnCard={this.editCard}
+                cardHandlingSuccess={this.state.cardEditedSuccessfully}
+                cardFront={this.state.cardToEdit.cardFront}
+                cardBack={this.state.cardToEdit.cardBack}
+                cardDeck ={this.state.cardToEdit.cardDeck}/>
         }
         return(
         <div className="">

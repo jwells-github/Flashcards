@@ -4,6 +4,9 @@ html, body, #root,.App, .playView{
 html,body, .mask{
     background: #0be881;
 }
+.hide{
+    display:none;
+}
 .header{
     background:#05c46b;
     height: 45px;
@@ -97,3 +100,36 @@ html,body, .mask{
     z-index: 2;
 }
 
+.flashcardOverlay{   
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 2;
+    /* cursor: pointer; */
+}
+
+.flashcardForm{
+    max-width: 450px;
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -30%);
+    background: white;
+    box-shadow: 1px 2px 5px black;
+    border: 1px solid black;
+    height: 415px;
+}
+
+.flashcardSubmitButton{
+    width: 86%;
+    height: 40px;
+}
+
+.inputSuggestionField{
+    min-height:170px;
+}

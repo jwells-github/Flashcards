@@ -36,7 +36,7 @@ code {
   display:flex;
   flex-direction:column;
   text-align: left;
-  margin: 0 .5em;
+  margin: 1em 1.5em;
 }
 .formField input{
   font-size:25px;
@@ -55,10 +55,13 @@ code {
   color: #0000002e;
 }
 .formSuggestion{
-  border: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
 }
 .formSuggestion span{
   display:block;
+  padding-left: 0.3em;
 }
 .formSuggestion span:hover{
   background:grey;
