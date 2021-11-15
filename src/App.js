@@ -8,6 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
       loggedIn: false,
     };
     this.setLoginStatus = this.setLoginStatus.bind(this)
@@ -19,7 +20,10 @@ class App extends Component {
       credentials: 'include'
     })
       .then(response => response.json())
-      .then(state => this.setState(state));
+      .then(state  => {
+        this.setState(state)
+        this.setState({loading:false})
+      });
   }
 
   setLoginStatus(bool){
@@ -28,6 +32,10 @@ class App extends Component {
 
   render() {
     let body = !this.state.loggedIn ? <EntranceForm setLoginStatus={this.setLoginStatus}/> : <FlashcardMenu/>
+    if(this.state.loading){
+      body = <h1>Loading...</h1>
+    }
+    
     return (
       <div className="App"> 
         <div className="header">
