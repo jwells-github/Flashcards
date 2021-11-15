@@ -2,11 +2,12 @@ import React, {Component} from 'react'
 
 
 class InputSuggestion extends Component {
+    static maxSuggestions = 5;
     constructor(props){
         super(props);
         this.state = {
             filteredData: [],
-            selectedSuggestion: 0,
+            selectedSuggestion: -1, // -1 indicating no suggestion is selected
         };
         this.updateSuggestions = this.updateSuggestions.bind(this);
         this.useSuggestion = this.useSuggestion.bind(this);
@@ -14,12 +15,14 @@ class InputSuggestion extends Component {
     }
 
     handleSuggestionInput(event){
-
+        if(this.state.filteredData.length <= 0){
+            return;
+        }
         let downKey = event.key === "Down" || event.key === "ArrowDown"
         let upKey = event.key === "Up" || event.key === "ArrowUp"
         let enterKey = event.key === "Enter";
         if(downKey){
-            if(this.state.filteredData.length <= this.state.selectedSuggestion){
+            if(InputSuggestion.maxSuggestions <= this.state.selectedSuggestion ){
                 return;
             }
             this.setState(prevState =>({
@@ -27,7 +30,7 @@ class InputSuggestion extends Component {
             }));
         }
         if(upKey){
-            if(this.state.selectedSuggestion <= 0){
+            if(this.state.selectedSuggestion <= -1){
                 return;
             }
             this.setState(prevState =>({
@@ -35,18 +38,18 @@ class InputSuggestion extends Component {
             }));
         }
         if(enterKey){
-            if(this.state.selectedSuggestion === 0 ){
+            if(this.state.selectedSuggestion === -1 ){
                 return;
             }
             event.preventDefault();
-            this.useSuggestion(this.state.filteredData[this.state.selectedSuggestion -1] )
+            this.useSuggestion(this.state.filteredData[this.state.selectedSuggestion])
         }
     }
 
     updateSuggestions(event){
         this.setState({ 
-            selectedSuggestion: 0,
-            filteredData : this.props.dataArray.filter(data => data.match(new RegExp(event.target.value,"i")))
+            selectedSuggestion: -1,
+            filteredData : this.props.dataArray.filter(data => data.match(new RegExp(event.target.value,"i"))).sort()
          });
          this.props.updateInputValue(event.target.value);
     }
@@ -61,14 +64,14 @@ class InputSuggestion extends Component {
 
       render(){
           return(
-            <div className="formField">
+            <div className="formField inputSuggestionField">
                 <label htmlFor={this.props.fieldName}>{this.props.fieldName}:</label>
                 <input onKeyDown={this.handleSuggestionInput} name={this.props.fieldName} type="text" value={this.props.InputValue} onChange={this.updateSuggestions} autoComplete="off"/>
-                <div className="formSuggestion">
-                    {this.state.filteredData.map((item, index) => 
+                <div className={this.state.filteredData.length > 0 ? "formSuggestion" : ""}>
+                    {this.state.filteredData.slice(0,InputSuggestion.maxSuggestions).map((item, index) => 
                         <span
                             key={index}
-                            id={this.state.selectedSuggestion === index + 1 ? "InputSuggestion-Selected" : ""}  
+                            id={this.state.selectedSuggestion === index  ? "InputSuggestion-Selected" : ""}  
                             value={item} 
                             onClick={() => this.useSuggestion(item)}>{item}
                         </span>)}
