@@ -5,9 +5,9 @@ class FlashcardForm extends Component {
         constructor(props){
         super(props);
         this.state = {
-            cardFront: this.props.cardFront === undefined ? '' : this.props.cardFront,
-            cardBack: this.props.cardBack  === undefined ? '' : this.props.cardBack,
-            cardDeck: this.props.cardDeck  === undefined ? '' : this.props.cardDeck,
+            cardFront: '',
+            cardBack: '',
+            cardDeck: '',
         };
         this.handleChange = this.handleChange.bind(this);
         this.updateCardDeck = this.updateCardDeck.bind(this);
@@ -16,6 +16,16 @@ class FlashcardForm extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        if(this.props.cardFront !== prevProps.cardFront){
+            this.setState({cardFront: this.props.cardFront === undefined ? '' : this.props.cardFront})
+        }
+        if(this.props.cardBack !== prevProps.cardBack){
+            this.setState({cardBack: this.props.cardBack === undefined ? '' : this.props.cardBack})
+        }
+        if(this.props.cardDeck !== prevProps.cardDeck){
+            this.setState({cardDeck: this.props.cardDeck === undefined ? '' : this.props.cardDeck})
+        }
+        /*
         if (this.props.cardHandlingSuccess !== prevProps.cardHandlingSuccess) {
             if(this.props.cardHandlingSuccess === true){
                 this.setState({
@@ -25,6 +35,7 @@ class FlashcardForm extends Component {
                 })
             }
         }
+        */
       }
     
     

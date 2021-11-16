@@ -94,7 +94,7 @@ class Flashcard extends Component {
                     <span className="cardText">{!this.state.showCardReverse ?  this.props.card.cardFront : this.props.card.cardBack}</span>
                     <span className="cardInfo">{!this.state.showCardReverse ? "Click to reveal back" : "Click to show front"}</span>
                 </div>
-                <div     className={this.state.actionTaken ? "cardButtons leftCardButton" : "cardButtons leftCardButton buttonInactive"}>
+                <div className={this.state.actionTaken ? "cardButtons leftCardButton" : "cardButtons leftCardButton buttonInactive"}>
                     <button className="buttonIncorrect" onClick={() => this.handleCardResult(false)}>Incorrect</button>
                 </div>
                 <div className={this.state.actionTaken ? "cardButtons" : "cardButtons buttonInactive"}>

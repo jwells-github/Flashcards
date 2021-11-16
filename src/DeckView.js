@@ -9,13 +9,13 @@ class DeckView extends Component {
             filteredData: [],
             InputValue: '',
             selectedSuggestion: 0,
-            showEditForm: false,
             cardToEdit: {},
-            cardEditedSuccessfully: undefined
+            displayEditCardForm: false,
         };
         this.deleteCard = this.deleteCard.bind(this);
         this.editCard =  this.editCard.bind(this);  
         this.setEditCard = this.setEditCard.bind(this);
+        this.hideFlashcardForm = this.hideFlashcardForm.bind(this);
     }
 
     
@@ -46,12 +46,6 @@ class DeckView extends Component {
             alert(response.message);
         }
     }   
-    displayEditForm(card){
-        this.setState({
-            showEditForm: true,
-            cardToEdit: card
-        })
-    }
 
     editCard(cardFront, cardBack, cardDeck){
         fetch("/flashcards/edit",{
@@ -85,23 +79,15 @@ class DeckView extends Component {
     }
     setEditCard(card){
         this.setState({
-            showEditForm: true,
-            cardToEdit: card
+            displayEditCardForm: true,
+            cardToEdit: card,
         })
+    }
+    hideFlashcardForm(){
+        this.setState({displayEditCardForm:false, cardToEdit: {}})
     }
 
     render(){
-        let editForm;
-        if(this.state.showEditForm){
-            editForm =
-            <FlashcardForm
-                decks={this.props.decks} 
-                returnCard={this.editCard}
-                cardHandlingSuccess={this.state.cardEditedSuccessfully}
-                cardFront={this.state.cardToEdit.cardFront}
-                cardBack={this.state.cardToEdit.cardBack}
-                cardDeck ={this.state.cardToEdit.cardDeck}/>
-        }
         return(
         <div className="">
             <span onClick={this.props.exitView}>Back</span>
@@ -126,7 +112,14 @@ class DeckView extends Component {
                     )}  
                 </tbody>
             </table>
-            {editForm}
+            <FlashcardForm
+                hideOverlay = {this.hideFlashcardForm}
+                displayForm = {this.state.displayEditCardForm}
+                decks={this.props.decks.map(deck => deck.deckName)} 
+                returnCard={this.editCard}
+                cardFront={this.state.cardToEdit.cardFront}
+                cardBack={this.state.cardToEdit.cardBack}
+                cardDeck ={this.state.cardToEdit.cardDeck}/>
         </div>  
         )
     }
