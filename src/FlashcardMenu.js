@@ -113,11 +113,9 @@ class FlashcardMenu extends Component {
         this.setState({deckSelected: true, selectedCards: this.state.flashcards.filter(card => card.cardDeck === deck)})
     }
     exitDeckView(){
-        window.history.forward()
         this.setState({deckSelected: false, selectedCards: []})
     }
     exitPlayView(){
-        window.history.forward()
         this.setState({deckSelected: false, selectedCards: [], playMode: false})
     }
     hideFlashcardForm(){
@@ -161,16 +159,19 @@ class FlashcardMenu extends Component {
                         returnCard={this.createFlashcard}
                         cardHandlingSuccess={this.state.cardCreatedSuccessfully}
                     />
-                    <div className="decks">
-                        {this.state.decks.map((deck,index) =>
-                            <div className="deck" key={index}>
-                                <span>{deck.deckName}</span>
-                                <span>{deck.count} {deck.count > 1 ? "cards" : "card"}</span>
-                                <button onClick={() => this.playDeck(deck.deckName)}>Play Deck</button>
-                                <button onClick={() => this.selectDeck(deck.deckName)}>Edit Deck</button>
-                            </div>
-                        )}
+                    <div>
+                        <div className="decks">
+                            {this.state.decks.map((deck,index) =>
+                                <div className="deck" key={index}>
+                                    <h1>{deck.deckName}</h1>
+                                    <span>{deck.count} {deck.count > 1 ? "cards" : "card"}</span>
+                                    <button onClick={() => this.playDeck(deck.deckName)}>Play Deck</button>
+                                    <button onClick={() => this.selectDeck(deck.deckName)}>Edit Deck</button>
+                                </div>
+                            )}
+                        </div>
                     </div>
+
                 </div>
                )
         }

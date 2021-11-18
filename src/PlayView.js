@@ -104,18 +104,17 @@ class PlayView extends Component{
             )
         }
         else{
+            let currentCard = this.state.cardsInPlay[this.state.positionInCards]
             return(
+            
                 <div onMouseMove={this.updateMousePosition} className="playView">
-                    <div className="maskLevel">
-                        <div className="mask"></div>
-                        <Flashcard 
-                            card={this.state.cardsInPlay[this.state.positionInCards]}
-                            handleCardResult={this.handleCardResult}
-                            mouseX = {this.state.mouseX}/>
-                        <div className="mask"></div>
-                    </div>
-
+                    <h1>Playing cards from {currentCard.cardDeck}</h1>
+                    <Flashcard 
+                        card={currentCard}
+                        handleCardResult={this.handleCardResult}
+                        mouseX = {this.state.mouseX}/>
                     <h2>{this.state.cardsInPlay.length - this.state.positionInCards + this.state.cardsToBeReplayed.length} Cards remaining</h2>
+                    <h2>{this.state.correctGuesses + this.state.incorrectGuesses} Cards Played</h2>
                 </div>
             )
         }

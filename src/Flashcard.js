@@ -88,18 +88,28 @@ class Flashcard extends Component {
         let translateStyle = "translateX(" + translateX + "px)"
 
         return(
-            <div className="cardContainer">
-                <div ref={this.FlashCardRef}  style={{transform: translateStyle}} className="flashCard" onMouseDown={this.dragCard} onClick={this.state.commitedToDragging ? null : this.flipCard}>
-                    <span className="cardInfo">{!this.state.showCardReverse ? "Front" : "Back"}</span>
-                    <span className="cardText">{!this.state.showCardReverse ?  this.props.card.cardFront : this.props.card.cardBack}</span>
-                    <span className="cardInfo">{!this.state.showCardReverse ? "Click to reveal back" : "Click to show front"}</span>
+            <div className="flashcardView">
+                <div className="maskLevel">
+                    <div className="mask"></div>
+                        <div className="cardContainer">
+                            <div  className="flashcard" ref={this.FlashCardRef}  style={{transform: translateStyle}} onMouseDown={this.dragCard} onClick={this.state.commitedToDragging ? null : this.flipCard}>
+                                <span className="cardInfo">{!this.state.showCardReverse ? "Front" : "Back"}</span>
+                                <span className="cardText">{!this.state.showCardReverse ?  this.props.card.cardFront : this.props.card.cardBack}</span>
+                                <span className="cardInfo">{!this.state.showCardReverse ? "Click to reveal back" : "Click to show front"}</span>
+                            </div>
+                            <div className="flashcardButtons">
+                                <div className={this.state.actionTaken ? "" : "buttonInactive"}>
+                                        <button className="buttonIncorrect" onClick={() => this.handleCardResult(false)}>Incorrect</button>
+                                </div>
+                                <div className={this.state.actionTaken ? "" : " buttonInactive"}>
+                                    <button className="buttonCorrect" onClick={() => this.handleCardResult(true)}>Correct</button>
+                                </div>
+                            </div>
+                        </div>
+                    <div className="mask"></div>
                 </div>
-                <div className={this.state.actionTaken ? "cardButtons leftCardButton" : "cardButtons leftCardButton buttonInactive"}>
-                    <button className="buttonIncorrect" onClick={() => this.handleCardResult(false)}>Incorrect</button>
-                </div>
-                <div className={this.state.actionTaken ? "cardButtons" : "cardButtons buttonInactive"}>
-                    <button className="buttonCorrect" onClick={() => this.handleCardResult(true)}>Correct</button>
-                </div>
+
+                
             </div>
         )
     }

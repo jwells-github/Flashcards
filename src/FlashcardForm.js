@@ -25,17 +25,6 @@ class FlashcardForm extends Component {
         if(this.props.cardDeck !== prevProps.cardDeck){
             this.setState({cardDeck: this.props.cardDeck === undefined ? '' : this.props.cardDeck})
         }
-        /*
-        if (this.props.cardHandlingSuccess !== prevProps.cardHandlingSuccess) {
-            if(this.props.cardHandlingSuccess === true){
-                this.setState({
-                    cardFront: '',
-                    cardBack: '',
-                    cardDeck: ''
-                })
-            }
-        }
-        */
       }
     
     

@@ -107,7 +107,6 @@ class DeckView extends Component {
                             <td>{card.dateCreated}</td>
                             <td><span onClick={()=>this.setEditCard(card)}>Edit</span></td>
                             <td><span onClick={()=>this.deleteCard(card)}>Delete</span></td>
-                            <td>{card._id}</td>
                         </tr>
                     )}  
                 </tbody>
