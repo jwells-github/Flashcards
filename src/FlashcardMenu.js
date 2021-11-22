@@ -14,6 +14,12 @@ class FlashcardMenu extends Component {
             selectedCards: [],
             cardCreatedSuccessfully: undefined,
             displayCardForm: false,
+            sortOptions: [
+                {name: "Alphabetical (ascending)", active: false},
+                {name: "Alphabetical (descending)", active: false},
+                {name: "Number of cards (ascending)", active: true},
+                {name: "Number of cards (descending)", active: false},
+            ],
         };
         this.createFlashcard = this.createFlashcard.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -26,6 +32,8 @@ class FlashcardMenu extends Component {
         this.playAllCards = this.playAllCards.bind(this);
         this.hideFlashcardForm = this.hideFlashcardForm.bind(this);
         this.showFlashcardForm = this.showFlashcardForm.bind(this);
+        this.updateSortPreference = this.updateSortPreference.bind(this);
+        this.sortDecks = this.sortDecks.bind(this);
     }
 
     componentDidMount(){
@@ -37,7 +45,7 @@ class FlashcardMenu extends Component {
             .then(response => {
                 this.setState({
                     flashcards: response.flashcards,
-                    decks: this.getDeckNames(response.flashcards)
+                    decks: this.sortDecks(this.getDeckNames(response.flashcards))
                 });
             });
     }
@@ -56,7 +64,7 @@ class FlashcardMenu extends Component {
         let filteredFlashcards = this.state.flashcards.filter(card => !card._id.match(cardId));
         this.setState({
             flashcards: filteredFlashcards,
-            decks: this.getDeckNames(filteredFlashcards)
+            decks: this.sortDecks(this.getDeckNames(filteredFlashcards))
         })
     }
 
@@ -74,7 +82,7 @@ class FlashcardMenu extends Component {
     addFlashcard(card){
         this.setState(prevState => ({
             flashcards: [...prevState.flashcards, card],
-            decks: this.getDeckNames([...prevState.flashcards, card]),
+            decks: this.sortDecks(this.getDeckNames([...prevState.flashcards, card])),
             cardCreatedSuccessfully:true
         }));
     }
@@ -124,6 +132,40 @@ class FlashcardMenu extends Component {
     showFlashcardForm(){
         this.setState({displayCardForm:true})
     }
+    updateSortPreference(event){    
+        let sortPreferences = this.state.sortOptions;
+        sortPreferences.forEach(option => {
+            if(option.name === event.target.value){
+                option.active = true;    
+            }
+            else{
+                option.active = false;
+            }
+        });
+        this.setState({sortOptions: sortPreferences}, 
+            this.setState({decks: this.sortDecks(this.state.decks)}
+        ));
+    }
+
+    sortDecks(decks){
+        switch(this.state.sortOptions.find(p => p.active).name){
+            case "Alphabetical (ascending)":
+                decks.sort((a,b) => a.deckName.localeCompare(b.deckName))
+                break;
+            case "Alphabetical (descending)":
+                decks.sort((a,b) => b.deckName.localeCompare(a.deckName))
+                break;
+            case "Number of cards (ascending)":
+                decks.sort((a,b) => a.count - b.count)
+                break;
+            case "Number of cards (descending)":
+                decks.sort((a,b) => b.count - a.count)
+                break;
+            default:
+                break;
+        }
+        return decks;
+    }
     render(){
         if(this.state.deckSelected){
             if(this.state.playMode){
@@ -147,11 +189,16 @@ class FlashcardMenu extends Component {
                    )
             }
         }
-        else{
+        else{   
             return(
                 <div className="flashcardMenu">
                     <button onClick={this.showFlashcardForm}>Add a flashcard</button>
                     <button onClick={this.playAllCards}>Play All</button>
+                    <select defaultValue={this.state.sortOptions.find(p => p.active).name} onChange={this.updateSortPreference}>
+                        {this.state.sortOptions.map(sortOption => 
+                            <option key={sortOption.name}  value={sortOption.name}>{sortOption.name}</option>)
+                        }
+                    </select>
                     <FlashcardForm
                         hideOverlay = {this.hideFlashcardForm}
                         displayForm = {this.state.displayCardForm}
