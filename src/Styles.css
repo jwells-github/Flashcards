@@ -8,7 +8,7 @@ html,body, .mask{
     display:none;
 }
 .header{
-    background:#05c46b;
+    background:white;
     height: 45px;
     display: flex;
     justify-content: space-between;
@@ -18,7 +18,7 @@ html,body, .mask{
 }
 .header div{
     padding:0 35px;
-    color: white;
+    color: black;
     font-weight: 500;
     font-size: 20px;
 }
