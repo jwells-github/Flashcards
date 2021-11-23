@@ -88,6 +88,9 @@ class DeckView extends Component {
     }
 
     render(){
+        console.log(this.props.cards)
+        console.log(Date.parse(this.props.cards[0].dateCreated))
+        console.log(typeof(Date.parse(this.props.cards[0].dateCreated)))
         return(
         <div className="">
             <span onClick={this.props.exitView}>Back</span>
@@ -104,7 +107,7 @@ class DeckView extends Component {
                         <tr key={index}>
                             <td>{card.cardFront}</td>
                             <td>{card.cardBack}</td>
-                            <td>{card.dateCreated}</td>
+                            <td>{new Date(card.dateCreated).toLocaleDateString('en-GB')}</td>
                             <td><span onClick={()=>this.setEditCard(card)}>Edit</span></td>
                             <td><span onClick={()=>this.deleteCard(card)}>Delete</span></td>
                         </tr>
