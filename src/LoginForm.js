@@ -36,7 +36,7 @@ class LoginForm extends Component {
               <form onSubmit={this.login}>
                 <div className="formField">
                   <label htmlFor="loginUsername">Username:</label>
-                  <input name="loginUsername"type="text" onChange={this.handleChange}/>
+                  <input name="loginUsername"type="text" autoFocus  onChange={this.handleChange}/>
                 </div>
                 <div className="formField">
                   <label htmlFor="loginPassword">Password:</label>
