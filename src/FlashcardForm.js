@@ -53,11 +53,11 @@ class FlashcardForm extends Component {
                 <button onClick={this.props.hideOverlay}>hide</button>
                 <div className="formField">
                     <label htmlFor="cardFront">Front Text:</label>
-                    <input name="cardFront" type="text" value={this.state.cardFront} onChange={this.handleChange}/>
+                    <textarea name="cardFront" type="text" value={this.state.cardFront} onChange={this.handleChange}/>
                 </div>
                 <div className="formField">
                     <label htmlFor="cardBack">Back Text:</label>
-                    <input name="cardBack" type="text" value={this.state.cardBack} onChange={this.handleChange}/>
+                    <textarea name="cardBack" type="text" value={this.state.cardBack} onChange={this.handleChange}/>
                 </div>
                 <InputSuggestion
                     InputValue={this.state.cardDeck}
