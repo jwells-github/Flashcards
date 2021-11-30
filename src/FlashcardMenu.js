@@ -15,10 +15,10 @@ class FlashcardMenu extends Component {
             cardCreatedSuccessfully: undefined,
             displayCardForm: false,
             sortOptions: [
-                {name: "Alphabetical (ascending)", active: false},
-                {name: "Alphabetical (descending)", active: false},
-                {name: "Number of cards (ascending)", active: true},
-                {name: "Number of cards (descending)", active: false},
+                {name: "Alphabetical", active: false},
+                {name: "Reverse alphabetical", active: false},
+                {name: "Number of cards (ascending)", active: false},
+                {name: "Number of cards (descending)", active: true},
             ],
         };
         this.createFlashcard = this.createFlashcard.bind(this);
@@ -149,10 +149,10 @@ class FlashcardMenu extends Component {
 
     sortDecks(decks){
         switch(this.state.sortOptions.find(p => p.active).name){
-            case "Alphabetical (ascending)":
+            case "Alphabetical":
                 decks.sort((a,b) => a.deckName.localeCompare(b.deckName))
                 break;
-            case "Alphabetical (descending)":
+            case "Reverse alphabetical":
                 decks.sort((a,b) => b.deckName.localeCompare(a.deckName))
                 break;
             case "Number of cards (ascending)":
@@ -212,8 +212,10 @@ class FlashcardMenu extends Component {
                                 <div className="deck" key={index}>
                                     <h1>{deck.deckName}</h1>
                                     <span>{deck.count} {deck.count > 1 ? "cards" : "card"}</span>
-                                    <button onClick={() => this.playDeck(deck.deckName)}>Play Deck</button>
-                                    <button onClick={() => this.selectDeck(deck.deckName)}>Edit Deck</button>
+                                    <div>
+                                        <button onClick={() => this.playDeck(deck.deckName)}>Play Deck</button>
+                                        <button onClick={() => this.selectDeck(deck.deckName)}>Edit Deck</button>
+                                    </div>
                                 </div>
                             )}
                         </div>
