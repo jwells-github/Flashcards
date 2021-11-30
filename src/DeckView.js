@@ -92,14 +92,16 @@ class DeckView extends Component {
         console.log(Date.parse(this.props.cards[0].dateCreated))
         console.log(typeof(Date.parse(this.props.cards[0].dateCreated)))
         return(
-        <div className="">
+        <div>
             <span onClick={this.props.exitView}>Back</span>
-            <table>
-                <thead>
+            <table className="deckViewTable">
+                <thead> 
                     <tr>    
-                        <th>Front</th>
-                        <th>Back</th>
-                        <th>Created</th>
+                        <th className="colCardFront">Card Front</th>
+                        <th className="colCardBack">Card Back</th>
+                        <th className="colCreatedDate">Created Date</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
