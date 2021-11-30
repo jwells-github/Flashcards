@@ -39,8 +39,19 @@ html,body, .mask{
     box-shadow: 1px 2px 5px black;
     display:flex;
     flex-direction: column;
+    justify-content: center;
 }
-
+.deck h1{
+    margin: 0;
+}
+.deck button{
+    height: 40px;
+    width: 40%;
+    margin: 0.2em;
+}
+.deck span{
+    margin-bottom: 1.5em;
+}
 .playView{
     display:flex;
     flex-direction: column;
@@ -52,7 +63,7 @@ html,body, .mask{
 .flashcard{
     flex-grow:1;
     width: 500px;
-    height: 350px;
+    min-height: 350px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -77,6 +88,7 @@ html,body, .mask{
 .cardText{
     font-size:24px;
     font-weight:600;
+    white-space: pre-wrap;
 }
 .cardInfo{
     color: #606060;
@@ -126,7 +138,6 @@ html,body, .mask{
 }
 
 .flashcardForm{
-    max-width: 450px;
     position: absolute;
     left: 50%;
     top: 30%;
@@ -134,15 +145,39 @@ html,body, .mask{
     background: white;
     box-shadow: 1px 2px 5px black;
     border: 1px solid black;
-    height: 415px;
+    max-height: 100%;
+    max-width: 95%;
     padding: 2em 0.5em;
 }
 
 .flashcardSubmitButton{
-    width: 86%;
+    width: 90%;
     height: 40px;
 }
 
 .inputSuggestionField{
     min-height:170px;
+}
+.deckViewTable{
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 1px 2px 5px black;
+    text-align: left;
+}
+.deckViewTable thead{
+    border-bottom: 1px solid black;
+}
+
+.deckViewTable th{
+    padding: 10px;
+}
+.deckViewTable td{
+    padding: 3px 10px;
+    white-space: pre-wrap;
+}
+.deckViewTable .colCardFront, 
+.deckViewTable .colCardBack{
+    width: 35%;
 }

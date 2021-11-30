@@ -44,6 +44,15 @@ code {
   font-weight: 600;
   font-size: 18px;
 }
+.formField textarea{
+  height: 140px;
+  max-height: 97px;
+  width: 100%;
+  max-width: 100%;
+  font-size: 25px;
+  resize: none;
+}
+
 .formField input{
   font-size:25px;
 }
