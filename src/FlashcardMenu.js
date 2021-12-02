@@ -9,7 +9,7 @@ class FlashcardMenu extends Component {
         this.state = {
             flashcards: [],
             decks: [],
-            deckFilter: '',
+            searchFilter: '',
             playMode: false,
             deckSelected: false,
             selectedCards: [],
@@ -204,7 +204,7 @@ class FlashcardMenu extends Component {
                         <div className="deckOptions">
                             <button onClick={this.showFlashcardForm}>Add a flashcard</button>
                             <button onClick={this.playAllCards}>Play All</button>
-                            <input placeholder="Search..." onChange={this.handleChange} name="deckFilter" type="text"></input>
+                            <input placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
                             <select defaultValue={this.state.sortOptions.find(p => p.active).name} onChange={this.updateSortPreference}>
                                 <optgroup label="Sort Method"> 
                                     {this.state.sortOptions.map(sortOption => 
@@ -214,7 +214,7 @@ class FlashcardMenu extends Component {
                             </select>
                         </div>
                         <div className="decks">
-                            {this.state.decks.filter(deck => deck.deckName.match(new RegExp(this.state.deckFilter,"g"))).map((deck,index) =>
+                            {this.state.decks.filter(deck => deck.deckName.match(new RegExp(this.state.searchFilter,"g"))).map((deck,index) =>
                                 <div className="deck" key={index}>
                                     <h1>{deck.deckName}</h1>
                                     <span>{deck.count} {deck.count > 1 ? "cards" : "card"}</span>
