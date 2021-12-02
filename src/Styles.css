@@ -22,6 +22,20 @@ html,body, .mask{
     font-weight: 500;
     font-size: 20px;
 }
+
+.deckOptions{
+    background:white;
+    display:flex;
+    flex-direction: row;
+    height: 27px;
+    padding: 4px;
+    width:90%;
+    margin: 0 auto;
+}
+.deckOptions input{
+    flex-grow: 1;
+    padding-left: 0.4em;
+}
 .decks{
     display: grid;
     grid-template-columns: repeat(auto-fit, 251px);
@@ -60,9 +74,8 @@ html,body, .mask{
 .flashcardView{
     width:100%;
 }
-.flashcard{
-    flex-grow:1;
-    width: 500px;
+.flashcard{ 
+    width: 100%;
     min-height: 350px;
     display: flex;
     flex-direction: column;
@@ -98,6 +111,9 @@ html,body, .mask{
     display:flex;
     flex-direction: column;
     box-shadow: 1px 2px 5px black;
+    width: 80%;
+    min-width: 350px;
+    max-width: 600px;
 }   
 .buttonIncorrect{
     background:#e53434;
@@ -118,7 +134,7 @@ html,body, .mask{
     justify-content: space-evenly;    
 }
 .mask{
-    width: 100%;
+    width: 40%;
 }
 .mask, .cardButtons{
     z-index: 2;

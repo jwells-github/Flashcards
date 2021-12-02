@@ -9,6 +9,7 @@ class FlashcardMenu extends Component {
         this.state = {
             flashcards: [],
             decks: [],
+            deckFilter: '',
             playMode: false,
             deckSelected: false,
             selectedCards: [],
@@ -192,13 +193,6 @@ class FlashcardMenu extends Component {
         else{   
             return(
                 <div className="flashcardMenu">
-                    <button onClick={this.showFlashcardForm}>Add a flashcard</button>
-                    <button onClick={this.playAllCards}>Play All</button>
-                    <select defaultValue={this.state.sortOptions.find(p => p.active).name} onChange={this.updateSortPreference}>
-                        {this.state.sortOptions.map(sortOption => 
-                            <option key={sortOption.name}  value={sortOption.name}>{sortOption.name}</option>)
-                        }
-                    </select>
                     <FlashcardForm
                         hideOverlay = {this.hideFlashcardForm}
                         displayForm = {this.state.displayCardForm}
@@ -206,9 +200,21 @@ class FlashcardMenu extends Component {
                         returnCard={this.createFlashcard}
                         cardHandlingSuccess={this.state.cardCreatedSuccessfully}
                     />
-                    <div>
+                    <div className="deckContainer">
+                        <div className="deckOptions">
+                            <button onClick={this.showFlashcardForm}>Add a flashcard</button>
+                            <button onClick={this.playAllCards}>Play All</button>
+                            <input placeholder="Search..." onChange={this.handleChange} name="deckFilter" type="text"></input>
+                            <select defaultValue={this.state.sortOptions.find(p => p.active).name} onChange={this.updateSortPreference}>
+                                <optgroup label="Sort Method"> 
+                                    {this.state.sortOptions.map(sortOption => 
+                                        <option key={sortOption.name}  value={sortOption.name}>{sortOption.name}</option>)
+                                    }
+                                </optgroup>
+                            </select>
+                        </div>
                         <div className="decks">
-                            {this.state.decks.map((deck,index) =>
+                            {this.state.decks.filter(deck => deck.deckName.match(new RegExp(this.state.deckFilter,"g"))).map((deck,index) =>
                                 <div className="deck" key={index}>
                                     <h1>{deck.deckName}</h1>
                                     <span>{deck.count} {deck.count > 1 ? "cards" : "card"}</span>
