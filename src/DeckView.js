@@ -8,6 +8,7 @@ class DeckView extends Component {
         this.state = {
             filteredData: [],
             InputValue: '',
+            searchFilter: '',
             selectedSuggestion: 0,
             cardToEdit: {},
             displayEditCardForm: false,
@@ -16,12 +17,17 @@ class DeckView extends Component {
         this.editCard =  this.editCard.bind(this);  
         this.setEditCard = this.setEditCard.bind(this);
         this.hideFlashcardForm = this.hideFlashcardForm.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     
     componentDidMount(){
         window.history.pushState({}, document.title)
         window.onpopstate = this.props.exitView;
+    }
+
+    handleChange(event) {
+        this.setState({ [event.target.name]: event.target.value });
     }
 
     deleteCard(card){
@@ -88,12 +94,15 @@ class DeckView extends Component {
     }
 
     render(){
-        console.log(this.props.cards)
-        console.log(Date.parse(this.props.cards[0].dateCreated))
-        console.log(typeof(Date.parse(this.props.cards[0].dateCreated)))
         return(
         <div>
-            <span onClick={this.props.exitView}>Back</span>
+            <div className="deckViewOptions">
+                <button onClick={this.props.exitView}>Back</button>
+                <button>Play Deck</button>
+                <input className="largeSearchbar" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
+                <button>Rename Deck</button>
+                <button>Delete Deck</button>
+            </div>
             <table className="deckViewTable">
                 <thead> 
                     <tr>    
@@ -105,14 +114,17 @@ class DeckView extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.cards.map((card,index) =>
-                        <tr key={index}>
-                            <td>{card.cardFront}</td>
-                            <td>{card.cardBack}</td>
-                            <td>{new Date(card.dateCreated).toLocaleDateString('en-GB')}</td>
-                            <td><span onClick={()=>this.setEditCard(card)}>Edit</span></td>
-                            <td><span onClick={()=>this.deleteCard(card)}>Delete</span></td>
-                        </tr>
+                    {this.props.cards.filter(card =>
+                        card.cardFront.match(new RegExp(this.state.searchFilter,"g")) ||
+                        card.cardBack.match(new RegExp(this.state.searchFilter,"g")))
+                        .map((card,index) =>
+                            <tr key={index}>
+                                <td>{card.cardFront}</td>
+                                <td>{card.cardBack}</td>
+                                <td>{new Date(card.dateCreated).toLocaleDateString('en-GB')}</td>
+                                <td><span onClick={()=>this.setEditCard(card)}>Edit</span></td>
+                                <td><span onClick={()=>this.deleteCard(card)}>Delete</span></td>
+                            </tr>
                     )}  
                 </tbody>
             </table>

@@ -31,8 +31,9 @@ html,body, .mask{
     padding: 4px;
     width:90%;
     margin: 0 auto;
+    box-shadow: 1px 2px 5px black;
 }
-.deckOptions input{
+.largeSearchbar{
     flex-grow: 1;
     padding-left: 0.4em;
 }
@@ -173,6 +174,17 @@ html,body, .mask{
 
 .inputSuggestionField{
     min-height:170px;
+}
+.deckViewOptions{
+    background:white;
+    display:flex;
+    flex-direction: row;
+    height: 27px;
+    padding: 4px;
+    width:80%;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    box-shadow: 1px 2px 5px black;
 }
 .deckViewTable{
     width: 80%;
