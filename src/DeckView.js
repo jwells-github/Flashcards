@@ -98,7 +98,7 @@ class DeckView extends Component {
         <div>
             <div className="deckViewOptions">
                 <button onClick={this.props.exitView}>Back</button>
-                <button>Play Deck</button>
+                <button onClick={this.props.playDeck}>Play Deck</button>
                 <input className="largeSearchbar" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
                 <button>Rename Deck</button>
                 <button>Delete Deck</button>

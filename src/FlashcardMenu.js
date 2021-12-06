@@ -11,6 +11,7 @@ class FlashcardMenu extends Component {
             decks: [],
             searchFilter: '',
             playMode: false,
+            inDeckView: false,
             deckSelected: false,
             selectedCards: [],
             cardCreatedSuccessfully: undefined,
@@ -35,6 +36,7 @@ class FlashcardMenu extends Component {
         this.showFlashcardForm = this.showFlashcardForm.bind(this);
         this.updateSortPreference = this.updateSortPreference.bind(this);
         this.sortDecks = this.sortDecks.bind(this);
+        this.enterDeckView = this.enterDeckView.bind(this);
     }
 
     componentDidMount(){
@@ -115,6 +117,10 @@ class FlashcardMenu extends Component {
         }
         this.setState({playMode: true})
     }
+    enterDeckView(deck){
+        this.selectDeck(deck)
+        this.setState({inDeckView: true})
+    }
     playAllCards(){
         this.setState({deckSelected: true, selectedCards: this.state.flashcards, playMode: true})
     }
@@ -125,7 +131,13 @@ class FlashcardMenu extends Component {
         this.setState({deckSelected: false, selectedCards: []})
     }
     exitPlayView(){
-        this.setState({deckSelected: false, selectedCards: [], playMode: false})
+        if(this.state.inDeckView){
+            this.setState({playMode: false})
+        }
+        else{
+            this.setState({deckSelected: false, selectedCards: [], playMode: false})
+        }
+        
     }
     hideFlashcardForm(){
         this.setState({displayCardForm:false})
@@ -184,7 +196,8 @@ class FlashcardMenu extends Component {
                             removeFlashcard = {this.removeFlashcard}
                             editFlashcard={this.editFlashcard}
                             decks={this.state.decks}
-                            exitView ={this.exitDeckView}
+                            exitView={this.exitDeckView}
+                            playDeck={() => this.playDeck(this.state.selectedCards[0].cardDeck)}
                             />
                     </div>
                    )
@@ -220,7 +233,7 @@ class FlashcardMenu extends Component {
                                     <span>{deck.count} {deck.count > 1 ? "cards" : "card"}</span>
                                     <div>
                                         <button onClick={() => this.playDeck(deck.deckName)}>Play Deck</button>
-                                        <button onClick={() => this.selectDeck(deck.deckName)}>Edit Deck</button>
+                                        <button onClick={() => this.enterDeckView(deck.deckName)}>Edit Deck</button>
                                     </div>
                                 </div>
                             )}
