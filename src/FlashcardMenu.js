@@ -204,7 +204,7 @@ class FlashcardMenu extends Component {
                         <div className="deckOptions">
                             <button onClick={this.showFlashcardForm}>Add a flashcard</button>
                             <button onClick={this.playAllCards}>Play All</button>
-                            <input placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
+                            <input className="largeSearchbar" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
                             <select defaultValue={this.state.sortOptions.find(p => p.active).name} onChange={this.updateSortPreference}>
                                 <optgroup label="Sort Method"> 
                                     {this.state.sortOptions.map(sortOption => 
