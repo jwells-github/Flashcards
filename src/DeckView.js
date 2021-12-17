@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import DeckNameForm from './DeckNameForm';
 import FlashcardForm from './FlashcardForm';
 
 
@@ -12,11 +13,14 @@ class DeckView extends Component {
             selectedSuggestion: 0,
             cardToEdit: {},
             displayEditCardForm: false,
+            displayEditDeckNameForm: false,
         };
         this.deleteCard = this.deleteCard.bind(this);
         this.editCard =  this.editCard.bind(this);  
-        this.setEditCard = this.setEditCard.bind(this);
+        this.displayEditCardForm = this.displayEditCardForm.bind(this);
+        this.displayEditDeckNameForm = this.displayEditDeckNameForm.bind(this);
         this.hideFlashcardForm = this.hideFlashcardForm.bind(this);
+        this.hideDeckNameForm = this.hideDeckNameForm.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
@@ -40,7 +44,7 @@ class DeckView extends Component {
                   'Accept': 'application/json',
                   'Content-Type':'application/json'
                 },
-                body: JSON.stringify({cardId: card._id, owner : card.owner})
+                body: JSON.stringify({cardId: card._id})
             }).then(response => response.json()).then(response => this.handleDeleteResponse(response, card._id));
         }
     }
@@ -64,7 +68,6 @@ class DeckView extends Component {
             },
             body: JSON.stringify({
                 cardId: this.state.cardToEdit._id,
-                owner : this.state.cardToEdit.owner,
                 cardFront: cardFront,
                 cardBack: cardBack,
                 cardDeck: cardDeck    
@@ -83,24 +86,31 @@ class DeckView extends Component {
             alert(response.message);
         }
     }
-    setEditCard(card){
+    displayEditCardForm(card){
         this.setState({
             displayEditCardForm: true,
             cardToEdit: card,
         })
     }
+    displayEditDeckNameForm(){
+        this.setState({displayEditDeckNameForm: true})
+    }
     hideFlashcardForm(){
         this.setState({displayEditCardForm:false, cardToEdit: {}})
+    }
+    hideDeckNameForm(){
+        this.setState({displayEditDeckNameForm:false})
     }
 
     render(){
         return(
         <div>
+            <h1>{this.props.cards[0].cardDeck}</h1>
             <div className="deckViewOptions">
                 <button onClick={this.props.exitView}>Back</button>
                 <button onClick={this.props.playDeck}>Play Deck</button>
                 <input className="largeSearchbar" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
-                <button>Rename Deck</button>
+                <button onClick={this.displayEditDeckNameForm}>Rename Deck</button>
                 <button>Delete Deck</button>
             </div>
             <table className="deckViewTable">
@@ -122,7 +132,7 @@ class DeckView extends Component {
                                 <td>{card.cardFront}</td>
                                 <td>{card.cardBack}</td>
                                 <td>{new Date(card.dateCreated).toLocaleDateString('en-GB')}</td>
-                                <td><span onClick={()=>this.setEditCard(card)}>Edit</span></td>
+                                <td><span onClick={()=>this.displayEditCardForm(card)}>Edit</span></td>
                                 <td><span onClick={()=>this.deleteCard(card)}>Delete</span></td>
                             </tr>
                     )}  
@@ -136,6 +146,13 @@ class DeckView extends Component {
                 cardFront={this.state.cardToEdit.cardFront}
                 cardBack={this.state.cardToEdit.cardBack}
                 cardDeck ={this.state.cardToEdit.cardDeck}/>
+            <DeckNameForm
+                hideOverlay = {this.hideDeckNameForm}
+                displayForm = {this.state.displayEditDeckNameForm}
+                decks={this.props.decks.map(deck => deck.deckName)} 
+                editDeckName={this.props.editDeckName}
+                cardDeck ={this.props.cards[0].cardDeck}
+            />
         </div>  
         )
     }

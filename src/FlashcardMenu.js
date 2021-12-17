@@ -37,6 +37,7 @@ class FlashcardMenu extends Component {
         this.updateSortPreference = this.updateSortPreference.bind(this);
         this.sortDecks = this.sortDecks.bind(this);
         this.enterDeckView = this.enterDeckView.bind(this);
+        this.editDeckName = this.editDeckName.bind(this);
     }
 
     componentDidMount(){
@@ -63,6 +64,15 @@ class FlashcardMenu extends Component {
         return decks;
     }
 
+    editDeckName(currentName, newName){
+        let editedFlashcards = this.state.flashcards.map(card =>{
+            if (card.cardDeck === currentName){
+                card.cardDeck = newName;
+            }
+            return card;
+        })
+        this.setState({flashcards: editedFlashcards, decks:this.getDeckNames(editedFlashcards)})
+    }
     removeFlashcard(cardId){
         let filteredFlashcards = this.state.flashcards.filter(card => !card._id.match(cardId));
         this.setState({
@@ -72,10 +82,13 @@ class FlashcardMenu extends Component {
     }
 
     editFlashcard(cardId, card){
-        let editedFlashcards = this.state.flashcards.slice();
-        let index = editedFlashcards.findIndex(card => card._id.match(cardId));
-        editedFlashcards[index] = card
-        this.setState({flashcards: editedFlashcards})
+        let allCards = this.state.flashcards.slice();
+        let AllCardsindex = allCards.findIndex(card => card._id.match(cardId));
+        allCards[AllCardsindex] = card
+        let selectedCards = this.state.selectedCards.slice();
+        let selectedCardsIndex = selectedCards.findIndex(card => card._id.match(cardId));
+        selectedCards[selectedCardsIndex] = card
+        this.setState({flashcards: allCards, selectedCards: selectedCards})
     }
 
     handleChange(event) {
@@ -198,6 +211,7 @@ class FlashcardMenu extends Component {
                             decks={this.state.decks}
                             exitView={this.exitDeckView}
                             playDeck={() => this.playDeck(this.state.selectedCards[0].cardDeck)}
+                            editDeckName={this.editDeckName}
                             />
                     </div>
                    )
