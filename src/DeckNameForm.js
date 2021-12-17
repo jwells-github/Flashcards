@@ -86,7 +86,6 @@ class DeckNameForm extends Component {
     render(){
         let mergeWarning = this.getFormWarning();
         return(
-        <div  className={this.props.displayForm ? "flashcardOverlay" : "hide"} onClick={this.hideOverlay}>
             <div className="flashcardForm">
                 <button onClick={this.props.hideOverlay}>hide</button>  
                 <form onSubmit={this.handleSubmit}>
@@ -100,8 +99,6 @@ class DeckNameForm extends Component {
                     {mergeWarning}
                 </form>
             </div>
-
-        </div>
         )
     }
 }

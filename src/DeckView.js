@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import DeckNameForm from './DeckNameForm';
 import FlashcardForm from './FlashcardForm';
+import ScreenOverlay from './ScreenOverlay';
 
 
 class DeckView extends Component {
@@ -93,7 +94,8 @@ class DeckView extends Component {
         })
     }
     displayEditDeckNameForm(){
-        this.setState({displayEditDeckNameForm: true})
+        this.setState({displayEditDeckNameForm: true});
+        this.hideFlashcardForm();
     }
     hideFlashcardForm(){
         this.setState({displayEditCardForm:false, cardToEdit: {}})
@@ -138,21 +140,24 @@ class DeckView extends Component {
                     )}  
                 </tbody>
             </table>
-            <FlashcardForm
-                hideOverlay = {this.hideFlashcardForm}
-                displayForm = {this.state.displayEditCardForm}
-                decks={this.props.decks.map(deck => deck.deckName)} 
-                returnCard={this.editCard}
-                cardFront={this.state.cardToEdit.cardFront}
-                cardBack={this.state.cardToEdit.cardBack}
-                cardDeck ={this.state.cardToEdit.cardDeck}/>
-            <DeckNameForm
-                hideOverlay = {this.hideDeckNameForm}
-                displayForm = {this.state.displayEditDeckNameForm}
-                decks={this.props.decks.map(deck => deck.deckName)} 
-                editDeckName={this.props.editDeckName}
-                cardDeck ={this.props.cards[0].cardDeck}
-            />
+            <ScreenOverlay hideOverlay = {this.hideFlashcardForm} displayOverlay = {this.state.displayEditCardForm}>
+                <FlashcardForm
+                    hideOverlay={this.hideFlashcardForm}
+                    decks={this.props.decks.map(deck => deck.deckName)} 
+                    returnCard={this.editCard}
+                    cardFront={this.state.cardToEdit.cardFront}
+                    cardBack={this.state.cardToEdit.cardBack}
+                    cardDeck ={this.state.cardToEdit.cardDeck}/>
+            </ScreenOverlay>
+            <ScreenOverlay hideOverlay = {this.hideDeckNameForm} displayOverlay = {this.state.displayEditDeckNameForm}>
+                <DeckNameForm
+                    hideOverlay={this.hideDeckNameForm}
+                    decks={this.props.decks.map(deck => deck.deckName)} 
+                    editDeckName={this.props.editDeckName}
+                    cardDeck ={this.props.cards[0].cardDeck}
+                />
+            </ScreenOverlay>
+
         </div>  
         )
     }

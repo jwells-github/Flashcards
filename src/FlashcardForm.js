@@ -12,7 +12,6 @@ class FlashcardForm extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.updateCardDeck = this.updateCardDeck.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.hideOverlay = this.hideOverlay.bind(this);
     }
 
     componentDidUpdate(prevProps) {
@@ -41,14 +40,8 @@ class FlashcardForm extends Component {
         this.props.returnCard(this.state.cardFront,this.state.cardBack,this.state.cardDeck)
     }
 
-    hideOverlay(event){
-        if(event.target === event.currentTarget){
-            this.props.hideOverlay()
-        }
-    }
     render(){
         return(
-        <div  className={this.props.displayForm ? "flashcardOverlay" : "hide"} onClick={this.hideOverlay}>
             <form className="flashcardForm" onSubmit={this.handleSubmit}>
                 <button onClick={this.props.hideOverlay}>hide</button>
                 <div className="formField">
@@ -67,7 +60,6 @@ class FlashcardForm extends Component {
                 />                 
                 <button className="flashcardSubmitButton" type="submit">Submit Card</button>
             </form>
-        </div>
         )
     }
 }

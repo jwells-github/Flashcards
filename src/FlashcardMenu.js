@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import DeckView from './DeckView';
 import FlashcardForm from './FlashcardForm';
 import PlayView from './PlayView';
+import ScreenOverlay from './ScreenOverlay';
 
 class FlashcardMenu extends Component {
     constructor(props){
@@ -220,13 +221,14 @@ class FlashcardMenu extends Component {
         else{   
             return(
                 <div className="flashcardMenu">
-                    <FlashcardForm
-                        hideOverlay = {this.hideFlashcardForm}
-                        displayForm = {this.state.displayCardForm}
-                        decks={this.state.decks.map(deck => deck.deckName)} 
-                        returnCard={this.createFlashcard}
-                        cardHandlingSuccess={this.state.cardCreatedSuccessfully}
-                    />
+                    <ScreenOverlay hideOverlay={this.hideFlashcardForm} displayOverlay={this.state.displayCardForm}>
+                        <FlashcardForm
+                            hideOverlay={this.hideFlashcardForm}
+                            decks={this.state.decks.map(deck => deck.deckName)} 
+                            returnCard={this.createFlashcard}
+                            cardHandlingSuccess={this.state.cardCreatedSuccessfully}
+                        />
+                    </ScreenOverlay>
                     <div className="deckContainer">
                         <div className="deckOptions">
                             <button onClick={this.showFlashcardForm}>Add a flashcard</button>
