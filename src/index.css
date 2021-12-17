@@ -39,6 +39,7 @@ code {
   flex-direction:column;
   text-align: left;
   margin: 1em 1.5em;
+  position: relative;
 }
 .formField label{
   font-weight: 600;
@@ -74,6 +75,11 @@ code {
   border-left: 1px solid black;
   border-right: 1px solid black;
   border-bottom: 1px solid black;
+  position: absolute;
+  width: 100%;
+  box-sizing: border-box;
+  background: white;
+  top: 59px;
 }
 .formSuggestion span{
   display:block;
