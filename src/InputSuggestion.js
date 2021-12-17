@@ -8,10 +8,13 @@ class InputSuggestion extends Component {
         this.state = {
             filteredData: [],
             selectedSuggestion: -1, // -1 indicating no suggestion is selected
+            displaySuggestions: true,
         };
         this.updateSuggestions = this.updateSuggestions.bind(this);
         this.useSuggestion = this.useSuggestion.bind(this);
         this.handleSuggestionInput = this.handleSuggestionInput.bind(this);
+        this.hideSuggestions = this.hideSuggestions.bind(this);
+        this.displaySuggestions = this.displaySuggestions.bind(this);
     }
 
     handleSuggestionInput(event){
@@ -61,12 +64,22 @@ class InputSuggestion extends Component {
         })
         this.props.updateInputValue(suggestion)
     }
+    hideSuggestions(){
+        this.setState({displaySuggestions: false})
+    }
+    displaySuggestions(){
+        this.setState({displaySuggestions: true})
+    }
 
-      render(){
-          return(
-            <div className="formField inputSuggestionField">
-                <label htmlFor={this.props.fieldName}>{this.props.fieldName}:</label>
-                <input onKeyDown={this.handleSuggestionInput} name={this.props.fieldName} type="text" value={this.props.InputValue} onChange={this.updateSuggestions} autoComplete="off"/>
+    render(){
+        return(
+        <div className="formField inputSuggestionField">
+            <label htmlFor={this.props.fieldName}>{this.props.fieldName}:</label>
+            <input onFocus={this.displaySuggestions} onBlur={this.hideSuggestions} onKeyDown={this.handleSuggestionInput}
+                name={this.props.fieldName} type="text" 
+                value={this.props.InputValue} onChange={this.updateSuggestions} 
+                autoComplete="off"/>
+            <div className={this.state.displaySuggestions? "" : "hide"}>
                 <div className={this.state.filteredData.length > 0 ? "formSuggestion" : ""}>
                     {this.state.filteredData.slice(0,InputSuggestion.maxSuggestions).map((item, index) => 
                         <span
@@ -76,8 +89,9 @@ class InputSuggestion extends Component {
                             onClick={() => this.useSuggestion(item)}>{item}
                         </span>)}
                 </div>
-            </div>  
-          )
+            </div>
+        </div>  
+        )
       }
 }
 
