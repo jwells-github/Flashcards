@@ -63,17 +63,24 @@ app.post('/flashcards/create', (req,res,next) =>{
 
 app.post('/flashcards/delete',(req,res,next) =>{
   if(!req.user) return res.status(400).json({ success: false, message: 'You are not logged in'}); 
-  if(!req.user._id.equals(req.body.owner)) return res.status(400).json({ success: false, message: 'You do not have permission to do that'}); 
-  Flashcard.deleteOne({_id: req.body.cardId}, function(err){
+  Flashcard.deleteOne({_id: req.body.cardId, owner: req.user._id}, function(err){
     if(err) return res.status(400).json({ success: false, message: 'There was an error when attempting to delete this flashcard'});
     res.send(JSON.stringify({success: true, message: 'Flashcard successfully deleted'}))
   })
 })
 
+app.post('/deck/edit', (req,res,next) =>{
+  console.log('what')
+  if(!req.user) return res.status(400).json({ success: false, message: 'You are not logged in'}); 
+  Flashcard.updateMany({cardDeck: req.body.oldDeckName, owner: req.user._id}, {$set: {cardDeck: req.body.newDeckName}}, function(err){
+    if(err) return res.status(400).json({ success: false, message: 'There was an error when attempting to update the deck name'});
+    res.send(JSON.stringify({success: true, message: 'Deck successfully edited'}))
+  })
+})
+
 app.post('/flashcards/edit',(req,res,next) =>{
   if(!req.user) return res.status(400).json({ success: false, message: 'You are not logged in'}); 
-  if(!req.user._id.equals(req.body.owner)) return res.status(400).json({ success: false, message: 'You do not have permission to do that'}); 
-  Flashcard.findOneAndUpdate({_id: req.body.cardId}, 
+  Flashcard.findOneAndUpdate({_id: req.body.cardId, owner: req.user._id}, 
     {cardFront:req.body.cardFront, cardBack: req.body.cardBack, cardDeck: req.body.cardDeck},
     {new: true}, 
     function(err, card){
@@ -123,31 +130,6 @@ app.get('/api/greeting', (req, res) => {
 });
 
 
-
-app.get('/flashcard', (req,res) =>{
-  const f = req.query.name || '';
-  var flashcard = new Flashcard({
-    front_text: "poop",
-    back_text : "more poop"
-  })
-  flashcard.save(function(err,flashcard){
-    if (err) return next(err);
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(flashcard));
-  })
-})
-/*
-app.post('/flashcard', (req,res,next) =>{
-  var flashcard = new Flashcard({
-    front_text: "poop",
-    back_text : "more poop"
-  })
-  flashcard.save(function(err,flashcard){
-    if (err) return next(err);
-    res.send(JSON.stringify(flashcard));
-  })
-})
-*/
 
 app.listen(3001, () =>
   console.log('Express server is running on localhost:3001')
