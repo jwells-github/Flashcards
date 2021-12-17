@@ -163,7 +163,8 @@ html,body, .mask{
     box-shadow: 1px 2px 5px black;
     border: 1px solid black;
     max-height: 100%;
-    max-width: 95%;
+    min-height:275px;
+    width:350px;
     padding: 2em 0.5em;
 }
 
@@ -172,9 +173,6 @@ html,body, .mask{
     height: 40px;
 }
 
-.inputSuggestionField{
-    min-height:170px;
-}
 .deckViewOptions{
     background:white;
     display:flex;
@@ -208,4 +206,20 @@ html,body, .mask{
 .deckViewTable .colCardFront, 
 .deckViewTable .colCardBack{
     width: 35%;
+}
+
+.formWarning{
+    margin:1em 1.5em;
+    display: inline-block;
+    font-size: 14px;
+    color:red;
+    text-align: left;
+}
+.formWarning h1{
+    margin: 2px;
+    font-size: 16px;
+}
+
+.formWarning span{
+    display: block;
 }
