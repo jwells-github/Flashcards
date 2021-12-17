@@ -1,6 +1,4 @@
 import React, {Component} from 'react'
-import InputSuggestion from './InputSuggestion';
-
 class ScreenOverlay extends Component {
         constructor(props){
         super(props);
@@ -14,7 +12,6 @@ class ScreenOverlay extends Component {
     }
 
     render(){
-        let child = this.props.displayOverlay ? "" :this.props.children;
         return(
         <div  className={this.props.displayOverlay ? "flashcardOverlay" : "hide"} onMouseDown={this.hideOverlay}>
             {this.props.children}
