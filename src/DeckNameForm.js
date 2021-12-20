@@ -5,7 +5,7 @@ class DeckNameForm extends Component {
         constructor(props){
         super(props);
         this.state = {
-            cardDeck: this.props.cardDeck,
+            cardDeck: this.props.cardDeck === undefined ? "" :  this.props.cardDeck,
             displayMergeWarning: false,
             displayCurrentNameWarning: false,
             errorEditingDeck: false,
