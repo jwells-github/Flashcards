@@ -62,7 +62,7 @@ class FlashcardMenu extends Component {
             let numberOfCardsInDeck = flashcards.filter(card => card.cardDeck === deckName).length;
             decks.push({deckName: deckName, count: numberOfCardsInDeck});
         });
-        return decks;
+        return this.sortDecks(decks);
     }
 
     editDeckName(currentName, newName){
@@ -78,7 +78,7 @@ class FlashcardMenu extends Component {
         let filteredFlashcards = this.state.flashcards.filter(card => !card._id.match(cardId));
         this.setState({
             flashcards: filteredFlashcards,
-            decks: this.sortDecks(this.getDeckNames(filteredFlashcards))
+            decks: this.getDeckNames(filteredFlashcards)
         })
     }
 
@@ -99,9 +99,15 @@ class FlashcardMenu extends Component {
     addFlashcard(card){
         this.setState(prevState => ({
             flashcards: [...prevState.flashcards, card],
-            decks: this.sortDecks(this.getDeckNames([...prevState.flashcards, card])),
+            decks: this.getDeckNames([...prevState.flashcards, card]),
             cardCreatedSuccessfully:true
         }));
+        if(this.state.deckSelected){
+            // Update Deckview
+            if(this.state.selectedCards.length){
+                this.selectDeck(this.state.selectedCards[0].cardDeck)
+            }
+        }
     }
 
     createFlashcard(cardFront, cardBack, cardDeck){
@@ -209,6 +215,7 @@ class FlashcardMenu extends Component {
                             cards={this.state.selectedCards}
                             removeFlashcard = {this.removeFlashcard}
                             editFlashcard={this.editFlashcard}
+                            createFlashcard={this.createFlashcard}
                             decks={this.state.decks}
                             exitView={this.exitDeckView}
                             playDeck={() => this.playDeck(this.state.selectedCards[0].cardDeck)}
