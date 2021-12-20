@@ -5,9 +5,9 @@ class FlashcardForm extends Component {
         constructor(props){
         super(props);
         this.state = {
-            cardFront: '',
-            cardBack: '',
-            cardDeck: '',
+            cardFront: this.props.cardFront === undefined ? "" :  this.props.cardFront,
+            cardBack: this.props.cardBack === undefined ? "" :  this.props.cardBack,
+            cardDeck: this.props.cardDeck === undefined ? "" :  this.props.cardDeck,
         };
         this.handleChange = this.handleChange.bind(this);
         this.updateCardDeck = this.updateCardDeck.bind(this);
