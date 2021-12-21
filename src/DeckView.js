@@ -111,8 +111,8 @@ class DeckView extends Component {
 
     render(){
         return(
-        <div>
-            <h1>{this.props.cards[0].cardDeck}</h1>
+        <div className='deckView'>
+            <h1>{this.props.isDisplayingAllDecks ? "All Decks" :this.props.cards[0].cardDeck}</h1>
             <div className="deckViewOptions">
                 <button onClick={this.props.exitView}>Back</button>
                 <button onClick={this.props.playDeck}>Play Deck</button>
@@ -126,7 +126,8 @@ class DeckView extends Component {
                     <tr>    
                         <th className="colCardFront">Card Front</th>
                         <th className="colCardBack">Card Back</th>
-                        <th className="colCreatedDate">Created Date</th>
+                        {this.props.isDisplayingAllDecks ? <th>Deck</th> : ""}
+                        <th>Created Date</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -139,9 +140,10 @@ class DeckView extends Component {
                             <tr key={index}>
                                 <td>{card.cardFront}</td>
                                 <td>{card.cardBack}</td>
+                                {this.props.isDisplayingAllDecks ? <td className='trCardDeck' title={card.cardDeck}>{card.cardDeck}</td> : ""}
                                 <td>{new Date(card.dateCreated).toLocaleDateString('en-GB')}</td>
-                                <td><span onClick={()=>this.displayEditCardForm(card)}>Edit</span></td>
-                                <td><span onClick={()=>this.deleteCard(card)}>Delete</span></td>
+                                <td className='tableAction'><span onClick={()=>this.displayEditCardForm(card)}>Edit</span></td>
+                                <td className='tableAction'><span onClick={()=>this.deleteCard(card)}>Delete</span></td>
                             </tr>
                     )}  
                 </tbody>

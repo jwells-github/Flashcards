@@ -15,6 +15,7 @@ class FlashcardMenu extends Component {
             inDeckView: false,
             deckSelected: false,
             selectedCards: [],
+            allCardsSelected: false,
             cardCreatedSuccessfully: undefined,
             displayCardForm: false,
             sortOptions: [
@@ -38,6 +39,7 @@ class FlashcardMenu extends Component {
         this.updateSortPreference = this.updateSortPreference.bind(this);
         this.sortDecks = this.sortDecks.bind(this);
         this.enterDeckView = this.enterDeckView.bind(this);
+        this.deckViewAllCards = this.deckViewAllCards.bind(this);
         this.editDeckName = this.editDeckName.bind(this);
     }
 
@@ -141,14 +143,23 @@ class FlashcardMenu extends Component {
         this.selectDeck(deck)
         this.setState({inDeckView: true})
     }
+    deckViewAllCards(){
+        this.setState({
+            selectedCards: this.state.flashcards, 
+            inDeckView: true, 
+            deckSelected: true,
+            allCardsSelected: true})
+    }
     playAllCards(){
         this.setState({deckSelected: true, selectedCards: this.state.flashcards, playMode: true})
     }
     selectDeck(deck){
-        this.setState({deckSelected: true, selectedCards: this.state.flashcards.filter(card => card.cardDeck === deck)})
+        this.setState({
+            deckSelected: true, 
+            selectedCards: this.state.flashcards.filter(card => card.cardDeck === deck)})
     }
     exitDeckView(){
-        this.setState({deckSelected: false, selectedCards: []})
+        this.setState({deckSelected: false, selectedCards: [], allCardsSelected: false})
     }
     exitPlayView(){
         if(this.state.inDeckView){
@@ -220,7 +231,8 @@ class FlashcardMenu extends Component {
                             exitView={this.exitDeckView}
                             playDeck={() => this.playDeck(this.state.selectedCards[0].cardDeck)}
                             editDeckName={this.editDeckName}
-                            />
+                            isDisplayingAllDecks={this.state.allCardsSelected}
+                        />
                     </div>
                    )
             }
@@ -240,6 +252,7 @@ class FlashcardMenu extends Component {
                         <div className="deckOptions">
                             <button onClick={this.showFlashcardForm}>Add a flashcard</button>
                             <button onClick={this.playAllCards}>Play All</button>
+                            <button onClick={this.deckViewAllCards}>View All</button>
                             <input className="largeSearchbar" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
                             <select defaultValue={this.state.sortOptions.find(p => p.active).name} onChange={this.updateSortPreference}>
                                 <optgroup label="Sort Method"> 
