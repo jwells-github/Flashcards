@@ -57,7 +57,11 @@ html,body, .mask{
     justify-content: center;
 }
 .deck h1{
-    margin: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
+    margin: 0 0.4em;
+    font-size: 1.7em;
 }
 .deck button{
     height: 40px;
@@ -172,7 +176,9 @@ html,body, .mask{
     width: 90%;
     height: 40px;
 }
-
+.deckView{
+    overflow: auto;
+}
 .deckViewOptions{
     background:white;
     display:flex;
@@ -184,9 +190,12 @@ html,body, .mask{
     margin-bottom: 10px;
     box-shadow: 1px 2px 5px black;
 }
+.tableAction{
+    cursor:pointer;
+}
 .deckViewTable{
     width: 80%;
-    margin: 0 auto;
+    margin: 0 auto 100px;
     border-collapse: collapse;
     background: white;
     box-shadow: 1px 2px 5px black;
@@ -208,6 +217,16 @@ html,body, .mask{
     width: 35%;
 }
 
+.deckViewTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.deckViewTable tr:hover{
+    background:#d1fff8;
+}   
+.deckViewTable .trCardDeck{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 .formWarning{
     margin:1em 1.5em;
     display: inline-block;
