@@ -249,20 +249,20 @@ class FlashcardMenu extends Component {
                         />
                     </ScreenOverlay>
                     <div className="deckContainer">
-                        <div className="deckOptions">
-                            <button onClick={this.showFlashcardForm}>Add a flashcard</button>
-                            <button onClick={this.playAllCards}>Play All</button>
-                            <button onClick={this.deckViewAllCards}>View All</button>
-                            <input className="largeSearchbar" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
-                            <select defaultValue={this.state.sortOptions.find(p => p.active).name} onChange={this.updateSortPreference}>
-                                <optgroup label="Sort Method"> 
-                                    {this.state.sortOptions.map(sortOption => 
-                                        <option key={sortOption.name}  value={sortOption.name}>{sortOption.name}</option>)
-                                    }
-                                </optgroup>
-                            </select>
-                        </div>
                         <div className="decks">
+                            <div className="deckOptions">
+                                <button onClick={this.showFlashcardForm}>Add a flashcard</button>
+                                <button onClick={this.playAllCards}>Play All</button>
+                                <button onClick={this.deckViewAllCards}>View All</button>
+                                <input className="largeSearchbar" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
+                                <select defaultValue={this.state.sortOptions.find(p => p.active).name} onChange={this.updateSortPreference}>
+                                    <optgroup label="Sort Method"> 
+                                        {this.state.sortOptions.map(sortOption => 
+                                            <option key={sortOption.name}  value={sortOption.name}>{sortOption.name}</option>)
+                                        }
+                                    </optgroup>
+                                </select>
+                            </div>
                             {this.state.decks.filter(deck => deck.deckName.match(new RegExp(this.state.searchFilter,"g"))).map((deck,index) =>
                                 <div className="deck" key={index}>
                                     <h1>{deck.deckName}</h1>
