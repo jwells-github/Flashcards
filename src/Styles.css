@@ -39,8 +39,7 @@ html,body, .mask{
 }
 .decks{
     display: grid;
-    grid-template-columns: repeat(auto-fit, 251px);
-    /* grid-gap: 1rem; */
+    grid-template-columns: repeat(auto-fit, 251px); 
     justify-content: center;
     align-content: flex-start; 
 }
@@ -80,13 +79,13 @@ html,body, .mask{
     width:100%;
 }
 .flashcard{ 
+    background-color: transparent;
     width: 100%;
     min-height: 350px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-self: center;
-    background: white;
     border: 1px dotted black;
     -webkit-touch-callout: none; 
     -webkit-user-select: none; 
@@ -95,6 +94,31 @@ html,body, .mask{
     -ms-user-select: none; 
     user-select: none; 
 }
+.flashcardInner{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.4s;
+    transform-style: preserve-3d;
+}
+.flashcardInnerFlip{
+    transform: rotateY(180deg);
+}
+.cardFront, .cardReverse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: white;
+}
+.cardReverse{
+    transform: rotateY(180deg);
+}
+
 .flashcardButtons{
     display:flex;
     justify-content: center;
@@ -242,3 +266,4 @@ html,body, .mask{
 .formWarning span{
     display: block;
 }
+

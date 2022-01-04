@@ -10,6 +10,7 @@ class Flashcard extends Component {
             draggingCard: false,
             initialCardCentre: 0,
             commitedToDragging: false,
+            cardFlipped: false,
         };
         this.flipCard = this.flipCard.bind(this);
         this.handleCardResult = this.handleCardResult.bind(this);
@@ -22,20 +23,21 @@ class Flashcard extends Component {
         document.removeEventListener("mouseup", this.stopDragging);
     }
 
-    flipCard(){
+    flipCard(event){
         if(this.state.commitedToDragging){
             this.setState({commitedToDragging : false})
             return;
         }
         this.setState(prevState => ({
             showCardReverse: !prevState.showCardReverse,
+            cardFlipped: !prevState.cardFlipped,
             actionTaken: true
         }));
     }   
     
     handleCardResult(answeredCorrectly){
         if(this.state.actionTaken){
-            this.setState({showCardReverse: false, actionTaken: false})
+            this.setState({showCardReverse: false, actionTaken: false, cardFlipped: false})
             this.props.handleCardResult(answeredCorrectly)
         }   
     }
@@ -74,7 +76,7 @@ class Flashcard extends Component {
             this.handleCardResult(true)
         }
         document.removeEventListener("mouseup", this.stopDragging);
-        // prevent onClick from being fired if the cursor is released over the code
+        // prevent onClick from being fired if the cursor is released over the cover
         setTimeout(() =>{
             this.setState({commitedToDragging : false})
         }, 100);
@@ -86,16 +88,28 @@ class Flashcard extends Component {
             translateX = this.props.mouseX - this.state.dragStartX
         }
         let translateStyle = "translateX(" + translateX + "px)"
-
+        let flashCardInnerClass = "flashcardInner "
+        if(this.state.cardFlipped){
+            flashCardInnerClass += "flashcardInnerFlip"
+        }
         return(
             <div className="flashcardView">
                 <div className="maskLevel">
                     <div className="mask"></div>
                         <div className="cardContainer">
-                            <div  className="flashcard" ref={this.FlashCardRef}  style={{transform: translateStyle}} onMouseDown={this.dragCard} onClick={this.state.commitedToDragging ? null : this.flipCard}>
-                                <span className="cardInfo">{!this.state.showCardReverse ? "Front" : "Back"}</span>
-                                <span className="cardText">{!this.state.showCardReverse ?  this.props.card.cardFront : this.props.card.cardBack}</span>
-                                <span className="cardInfo">{!this.state.showCardReverse ? "Click to reveal back" : "Click to show front"}</span>
+                            <div className='flashcard' ref={this.FlashCardRef}  style={{transform: translateStyle}} onMouseDown={this.dragCard} onClick={this.state.commitedToDragging ? null : this.flipCard}>
+                                <div className={flashCardInnerClass}>
+                                    <div className="cardFront" >
+                                        <span className="cardInfo">Front</span>
+                                        <span className="cardText">{this.props.card.cardFront}</span>
+                                        <span className="cardInfo">Click to reveal back</span>
+                                    </div>
+                                    <div className="cardReverse">
+                                        <span className="cardInfo">Back</span>
+                                        <span className="cardText">{this.props.card.cardBack}</span>
+                                        <span className="cardInfo">Click to show front</span>
+                                    </div>
+                                </div>
                             </div>
                             <div className="flashcardButtons">
                                 <div className={this.state.actionTaken ? "" : "buttonInactive"}>
