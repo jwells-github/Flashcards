@@ -9,7 +9,7 @@ html,body, .mask{
 }
 .header{
     background:white;
-    height: 45px;
+    min-height: 45px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -27,12 +27,15 @@ html,body, .mask{
     background:white;
     display:flex;
     flex-direction: row;
-    height: 34px;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-height: 34px;
     padding: 4px;
     width:100%;
     box-shadow: 1px 2px 5px black;
-    grid-column: 1   / -1;
+    grid-column: 1 / -1;
 }
+
 .largeSearchbar{
     flex-grow: 1;
     padding-left: 0.4em;
@@ -207,7 +210,8 @@ html,body, .mask{
     background:white;
     display:flex;
     flex-direction: row;
-    height: 27px;
+    flex-wrap: wrap;
+    min-height: 27px;
     padding: 4px;
     width:80%;
     margin: 0 auto;
@@ -267,3 +271,9 @@ html,body, .mask{
     display: block;
 }
 
+@media (max-width: 501px) {
+    .deckOptions button,
+    .deckOptions select {
+      flex-grow: 1;
+    }
+}
