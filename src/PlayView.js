@@ -108,7 +108,7 @@ class PlayView extends Component{
             return(
             
                 <div onMouseMove={this.updateMousePosition} className="playView">
-                    <h1>Playing cards from {currentCard.cardDeck}</h1>
+                    <h1>Playing cards from: <br/> {currentCard.cardDeck}</h1>
                     <Flashcard 
                         card={currentCard}
                         handleCardResult={this.handleCardResult}

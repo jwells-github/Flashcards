@@ -114,10 +114,9 @@ class DeckView extends Component {
         <div className='deckView'>
             <h1>{this.props.isDisplayingAllDecks ? "All Decks" :this.props.cards[0].cardDeck}</h1>
             <div className="deckViewOptions">
-                <button onClick={this.props.exitView}>Back</button>
                 <button onClick={this.props.playDeck}>Play Deck</button>
-                <input className="largeSearchbar" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
                 <button onClick={this.displayCreateCardForm}>Add a card</button>
+                <input className="largeSearchbar" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
                 <button onClick={this.displayEditDeckNameForm}>Rename Deck</button>
                 <button>Delete Deck</button>
             </div>
