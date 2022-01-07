@@ -106,58 +106,7 @@ html,body{
     width: 90%;
     height: 40px;
 }
-.deckView{
-    overflow: auto;
-}
-.deckViewOptions{
-    background:white;
-    display:flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    width:80%;
-    min-height: 34px;
-    padding: 4px;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    box-shadow: 1px 2px 5px black;
-}
-.tableAction{
-    cursor:pointer;
-}
-.deckViewTable{
-    width: 80%;
-    margin: 0 auto 100px;
-    border-collapse: collapse;
-    background: white;
-    box-shadow: 1px 2px 5px black;
-    text-align: left;
-}
-.deckViewTable thead{
-    border-bottom: 1px solid black;
-}
 
-.deckViewTable th{
-    padding: 10px;
-}
-.deckViewTable td{
-    padding: 3px 10px;
-    white-space: pre-wrap;
-}
-.deckViewTable .colCardFront, 
-.deckViewTable .colCardBack{
-    width: 35%;
-}
-
-.deckViewTable tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-.deckViewTable tr:hover{
-    background:#d1fff8;
-}   
-.deckViewTable .colCardDeck{
-    text-overflow: ellipsis;
-}
 .formWarning{
     margin:1em 1.5em;
     display: inline-block;
@@ -207,12 +156,6 @@ html,body{
     .deckOptions button{
         width:33%
     }
-    .deckViewOptions{
-        width:95%;
-    }
-    .deckViewOptions button{
-        width:50%;
-    }
 
     .deckOptions button,
     .deckOptions select {
@@ -224,38 +167,5 @@ html,body{
     }
     .flashcardForm{
         max-width:290px
-    }
-    .deckViewTable{
-        font-size: 13px;
-        margin: 0 auto;
-        width:98%;
-        max-width: 98%;
-    }
-    .deckViewTable th{
-        padding: 2px;
-    }
-    .deckViewTable .colCardFront, 
-    .deckViewTable .colCardBack{
-        width: 30%;
-    }
-    .deckViewTable td{
-        padding:3px;
-    }
-    .colCardDate{
-        display: none;
-    }
-    .colCardDeck, .colCardFront, .colCardBack{
-        overflow-wrap: anywhere;
-    }
-    
-}
-
-@media (max-width: 658px){
-    .deckViewOptions .largeSearchbar{
-        order:1;
-    }
-    .deckViewOptions button,
-    .deckOptions select{
-        flex-grow: 1;
     }
 }
