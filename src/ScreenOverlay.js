@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import './ScreenOverlay.css'
 class ScreenOverlay extends Component {
         constructor(props){
         super(props);
@@ -13,7 +14,7 @@ class ScreenOverlay extends Component {
 
     render(){
         return(
-        <div  className={this.props.displayOverlay ? "flashcardOverlay" : "hide"} onMouseDown={this.hideOverlay}>
+        <div  className={this.props.displayOverlay ? "screenOverlay" : "hide"} onMouseDown={this.hideOverlay}>
             {this.props.children}
         </div>
         )
