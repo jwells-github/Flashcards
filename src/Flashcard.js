@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-
+import './Flashcard.css';
 class Flashcard extends Component {
     constructor(props){
         super(props);
@@ -97,7 +97,7 @@ class Flashcard extends Component {
                 <div className="maskLevel">
                     <div className="mask"></div>
                         <div className="cardContainer">
-                            <div className='flashcard' ref={this.FlashCardRef}  style={{transform: translateStyle}} onMouseDown={this.dragCard} onClick={this.state.commitedToDragging ? null : this.flipCard}>
+                            <div className="flashcard" ref={this.FlashCardRef}  style={{transform: translateStyle}} onMouseDown={this.dragCard} onClick={this.state.commitedToDragging ? null : this.flipCard}>
                                 <div className={flashCardInnerClass}>
                                     <div className="cardFront" >
                                         <span className="cardInfo">Front</span>
