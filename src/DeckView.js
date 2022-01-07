@@ -125,10 +125,10 @@ class DeckView extends Component {
                     <tr>    
                         <th className="colCardFront">Card Front</th>
                         <th className="colCardBack">Card Back</th>
-                        {this.props.isDisplayingAllDecks ? <th>Deck</th> : ""}
-                        <th>Created Date</th>
-                        <th></th>
-                        <th></th>
+                        {this.props.isDisplayingAllDecks ? <th className='colCardDeck'>Deck</th> : ""}
+                        <th className='colCardDate'>Created Date</th>
+                        <th className='colCardAction'></th>
+                        <th className='colCardAction'></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -137,12 +137,12 @@ class DeckView extends Component {
                         card.cardBack.match(new RegExp(this.state.searchFilter,"g")))
                         .map((card,index) =>
                             <tr key={index}>
-                                <td>{card.cardFront}</td>
-                                <td>{card.cardBack}</td>
-                                {this.props.isDisplayingAllDecks ? <td className='trCardDeck' title={card.cardDeck}>{card.cardDeck}</td> : ""}
-                                <td>{new Date(card.dateCreated).toLocaleDateString('en-GB')}</td>
-                                <td className='tableAction'><span onClick={()=>this.displayEditCardForm(card)}>Edit</span></td>
-                                <td className='tableAction'><span onClick={()=>this.deleteCard(card)}>Delete</span></td>
+                                <td className='colCardFront'>{card.cardFront}</td>
+                                <td className='colCardBack'>{card.cardBack}</td>
+                                {this.props.isDisplayingAllDecks ? <td className='colCardDeck' title={card.cardDeck}>{card.cardDeck}</td> : ""}
+                                <td className='colCardDate'>{new Date(card.dateCreated).toLocaleDateString('en-GB')}</td>
+                                <td className='colCardAction tableAction'><span onClick={()=>this.displayEditCardForm(card)}>Edit</span></td>
+                                <td className='colCardAction tableAction'><span onClick={()=>this.deleteCard(card)}>Delete</span></td>
                             </tr>
                     )}  
                 </tbody>

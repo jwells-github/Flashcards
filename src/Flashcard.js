@@ -122,8 +122,6 @@ class Flashcard extends Component {
                         </div>
                     <div className="mask"></div>
                 </div>
-
-                
             </div>
         )
     }

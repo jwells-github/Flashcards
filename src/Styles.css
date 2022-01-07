@@ -248,8 +248,7 @@ html,body, .mask{
 .deckViewTable tr:hover{
     background:#d1fff8;
 }   
-.deckViewTable .trCardDeck{
-    white-space: nowrap;
+.deckViewTable .colCardDeck{
     text-overflow: ellipsis;
 }
 .formWarning{
@@ -304,14 +303,10 @@ html,body, .mask{
     .deckViewOptions{
         width:95%;
     }
-    .deckViewOptions .largeSearchbar{
-        order:1;
-    }
     .deckViewOptions button{
         width:50%;
     }
-    .deckViewOptions button,
-    .deckOptions select,
+
     .deckOptions button,
     .deckOptions select {
       flex-grow: 1;
@@ -330,5 +325,38 @@ html,body, .mask{
         width:98%;
         max-width: none;
         min-width: auto;
+    }
+    .deckViewTable{
+        font-size: 13px;
+        margin: 0 auto;
+        width:98%;
+        max-width: 98%;
+    }
+    .deckViewTable th{
+        padding: 2px;
+    }
+    .deckViewTable .colCardFront, 
+    .deckViewTable .colCardBack{
+        width: 30%;
+    }
+    .deckViewTable td{
+        padding:3px;
+    }
+    .colCardDate{
+        display: none;
+    }
+    .colCardDeck, .colCardFront, .colCardBack{
+        overflow-wrap: anywhere;
+    }
+    
+}
+
+@media (max-width: 658px){
+    .deckViewOptions .largeSearchbar{
+        order:1;
+    }
+    .deckViewOptions button,
+    .deckOptions select{
+        flex-grow: 1;
     }
 }
