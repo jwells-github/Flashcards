@@ -40,7 +40,7 @@ class SignUpForm extends Component {
               <form onSubmit={this.signUp}>
                 <div className="formField">
                   <label htmlFor="signUpUsername">Username:</label>
-                  <input name="signUpUsername"type="text" onChange={this.handleChange}/>
+                  <input name="signUpUsername"type="text" autoFocus onChange={this.handleChange}/>
                 </div>
                 <div className="formField">
                   <label htmlFor="signUpFieldPassword">Password:</label>
