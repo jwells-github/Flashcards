@@ -148,18 +148,22 @@ class FlashcardMenu extends Component {
             selectedCards: this.state.flashcards, 
             inDeckView: true, 
             deckSelected: true,
-            allCardsSelected: true})
+            allCardsSelected: true});
+        this.props.showBackButton();
     }
     playAllCards(){
         this.setState({deckSelected: true, selectedCards: this.state.flashcards, playMode: true})
+        this.props.showBackButton();
     }
     selectDeck(deck){
         this.setState({
             deckSelected: true, 
             selectedCards: this.state.flashcards.filter(card => card.cardDeck === deck)})
+        this.props.showBackButton();
     }
     exitDeckView(){
-        this.setState({deckSelected: false, selectedCards: [], allCardsSelected: false})
+        this.setState({deckSelected: false, selectedCards: [], allCardsSelected: false, inDeckView:false})
+        this.props.hideBackButton();
     }
     exitPlayView(){
         if(this.state.inDeckView){
@@ -168,7 +172,7 @@ class FlashcardMenu extends Component {
         else{
             this.setState({deckSelected: false, selectedCards: [], playMode: false})
         }
-        
+        this.props.hideBackButton();
     }
     hideFlashcardForm(){
         this.setState({displayCardForm:false})

@@ -4,6 +4,9 @@ html,body{
 .hide{
     display:none;
 }
+.invisibile{
+    visibility: hidden;
+}
 .header{
     background:white;
     min-height: 45px;

@@ -10,8 +10,11 @@ class App extends Component {
     this.state = {
       loading: true,
       loggedIn: false,
+      displayBackButton: false,
     };
     this.setLoginStatus = this.setLoginStatus.bind(this)
+    this.showBackButton = this.showBackButton.bind(this);
+    this.hideBackButton = this.hideBackButton.bind(this);
   }
 
   componentDidMount(){
@@ -29,18 +32,29 @@ class App extends Component {
   setLoginStatus(bool){
     this.setState({loggedIn: bool})
   }
-
+  showBackButton(){
+    this.setState({displayBackButton: true})
+  }
+  hideBackButton(){
+    this.setState({displayBackButton: false})
+  }
+  
+  historyBack(){
+    window.history.back()
+  }
   render() {
-    let body = !this.state.loggedIn ? <EntranceForm setLoginStatus={this.setLoginStatus}/> : <FlashcardMenu/>
-    if(this.state.loading){
-      body = <h1>Loading...</h1>
+    let body = <EntranceForm setLoginStatus={this.setLoginStatus}/>; 
+    if(this.state.loggedIn){
+      body =  <FlashcardMenu
+                 hideBackButton ={this.hideBackButton}
+                 showBackButton = {this.showBackButton}
+              />
     }
-    
     return (
       <div className="App"> 
         <div className="header">
           <div>
-            <i class="fas fa-arrow-left"></i>
+            <i onClick={this.historyBack} className={this.state.displayBackButton ? "fas fa-arrow-left" : "fas fa-arrow-left invisibile"}></i>
             <span>Flashcard App</span></div>
           <div>
             <span>{this.state.loggedIn ? "You are logged in" : ""}</span>
