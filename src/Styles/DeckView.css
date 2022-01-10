@@ -51,10 +51,11 @@
     text-overflow: ellipsis;
 }
 
-.deckViewOptions{
-    width:95%;
-}
+
 @media (max-width: 501px) {
+    .deckViewOptions{
+        width:95%;
+    }
     .deckViewOptions button{
         width:50%;
     }

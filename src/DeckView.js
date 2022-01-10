@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import './DeckView.css';
+import './Styles/DeckView.css';
 import DeckNameForm from './DeckNameForm';
 import FlashcardForm from './FlashcardForm';
 import ScreenOverlay from './ScreenOverlay';

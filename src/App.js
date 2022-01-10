@@ -1,5 +1,5 @@
-import './App.css';
-import './Styles.css';
+import './Styles/App.css';
+import './Styles/Styles.css';
 import React, {Component} from 'react'
 import EntranceForm from './EntranceForm';
 import FlashcardMenu from './FlashcardMenu';

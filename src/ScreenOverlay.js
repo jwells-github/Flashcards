@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import './ScreenOverlay.css'
+import './Styles/ScreenOverlay.css'
 class ScreenOverlay extends Component {
         constructor(props){
         super(props);
