@@ -14,10 +14,13 @@ html,body{
     margin-bottom: 10px;
 }
 .header div{
-    padding:0 35px;
+    padding:0 10px;
     color: black;
     font-weight: 500;
     font-size: 20px;
+}
+.header i{
+    margin-right:8px;
 }
 .entranceForm{
     min-height: 19em;

@@ -40,6 +40,7 @@ class App extends Component {
       <div className="App"> 
         <div className="header">
           <div>
+            <i class="fas fa-arrow-left"></i>
             <span>Flashcard App</span></div>
           <div>
             <span>{this.state.loggedIn ? "You are logged in" : ""}</span>
