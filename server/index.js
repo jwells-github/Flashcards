@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
@@ -10,7 +9,6 @@ require('./passport')(passport);
 const bcrypt = require('bcryptjs');
 const User = require('./models/user');
 const Flashcard = require('./models/flashcard');
-const { findOne } = require('./models/user');
 
 dotenv.config();
 mongoose.connect(process.env.mongoDB);
@@ -21,7 +19,7 @@ app.use(express.json());
 app.use(pino);
 
 app.use(cookieParser());
-app.use(session({secret: 'abc', resave: false, saveUninitialized: true  }));
+app.use(session({secret: process.env.sessionSecret, resave: false, saveUninitialized: true  }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -70,7 +68,6 @@ app.post('/flashcards/delete',(req,res,next) =>{
 })
 
 app.post('/deck/edit', (req,res,next) =>{
-  console.log('what')
   if(!req.user) return res.status(400).json({ success: false, message: 'You are not logged in'}); 
   Flashcard.updateMany({cardDeck: req.body.oldDeckName, owner: req.user._id}, {$set: {cardDeck: req.body.newDeckName}}, function(err){
     if(err) return res.status(400).json({ success: false, message: 'There was an error when attempting to update the deck name'});
@@ -99,15 +96,16 @@ app.get('/flashcards/get', (req,res) =>{
 })
 
 app.post('/login', passport.authenticate("local", {session: true, failWithError: true}),
-  // Login succeeded
+  // Login success
   function(req,res,next){
     return res.send(JSON.stringify({ loggedIn: true, username: req.user.username }));
   },
-  // Login failed
+  // Login fail
   function(err,req,res,next){
     let statusCode = err.status || 500;
     return res.status(statusCode).json({ loggedIn: false, formError: 'Login details are incorrect' })
-  });
+  }
+);
 
 app.get('/logout', function(req,res){
   req.logout();
@@ -128,8 +126,6 @@ app.get('/api/greeting', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
 });
-
-
 
 app.listen(3001, () =>
   console.log('Express server is running on localhost:3001')
