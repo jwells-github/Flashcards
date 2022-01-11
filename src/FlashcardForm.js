@@ -38,6 +38,7 @@ class FlashcardForm extends Component {
         if(this.state.cardFront === '' || this.state.cardBack === '' || this.state.cardDeck === '') return;
         this.props.hideOverlay()
         this.props.returnCard(this.state.cardFront,this.state.cardBack,this.state.cardDeck)
+        this.setState({cardFront: '', cardBack: '', cardBack: ''})
     }
 
     render(){
