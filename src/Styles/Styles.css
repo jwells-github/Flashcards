@@ -130,7 +130,7 @@ html,body{
 .deck{
     border:1px solid black;
     width:15em;
-    height:14em;
+    height:15em;
     color: black;
     background:white;
     margin: 5px ;
@@ -140,6 +140,7 @@ html,body{
     justify-content: center;
 }
 .deck h1{
+    height: 3em;
     text-overflow: ellipsis;
     overflow: hidden;
     text-align: center;
@@ -152,7 +153,7 @@ html,body{
     margin: 0.2em;
 }
 .deck span{
-    margin-bottom: 1.5em;
+    margin-bottom: .8em;
 }
 .playView{
     display:flex;
