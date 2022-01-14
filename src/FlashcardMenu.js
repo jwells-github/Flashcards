@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import DeckSortOptions from './DeckSortOptions';
 import DeckView from './DeckView';
 import FlashcardForm from './FlashcardForm';
 import PlayView from './PlayView';
@@ -18,12 +19,6 @@ class FlashcardMenu extends Component {
             allCardsSelected: false,
             cardCreatedSuccessfully: undefined,
             displayCardForm: false,
-            sortOptions: [
-                {name: "Alphabetical", active: false},
-                {name: "Reverse alphabetical", active: false},
-                {name: "Number of cards (ascending)", active: false},
-                {name: "Number of cards (descending)", active: true},
-            ],
         };
         this.createFlashcard = this.createFlashcard.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -36,11 +31,10 @@ class FlashcardMenu extends Component {
         this.playAllCards = this.playAllCards.bind(this);
         this.hideFlashcardForm = this.hideFlashcardForm.bind(this);
         this.showFlashcardForm = this.showFlashcardForm.bind(this);
-        this.updateSortPreference = this.updateSortPreference.bind(this);
-        this.sortDecks = this.sortDecks.bind(this);
         this.enterDeckView = this.enterDeckView.bind(this);
         this.deckViewAllCards = this.deckViewAllCards.bind(this);
         this.editDeckName = this.editDeckName.bind(this);
+        this.updateDecks = this.updateDecks.bind(this);
     }
 
     componentDidMount(){
@@ -52,7 +46,7 @@ class FlashcardMenu extends Component {
             .then(response => {
                 this.setState({
                     flashcards: response.flashcards,
-                    decks: this.sortDecks(this.getDeckNames(response.flashcards))
+                    decks: this.getDeckNames(response.flashcards)
                 });
             });
     }
@@ -64,7 +58,7 @@ class FlashcardMenu extends Component {
             let numberOfCardsInDeck = flashcards.filter(card => card.cardDeck === deckName).length;
             decks.push({deckName: deckName, count: numberOfCardsInDeck});
         });
-        return this.sortDecks(decks);
+        return decks;
     }
 
     editDeckName(currentName, newName){
@@ -180,40 +174,11 @@ class FlashcardMenu extends Component {
     showFlashcardForm(){
         this.setState({displayCardForm:true})
     }
-    updateSortPreference(event){    
-        let sortPreferences = this.state.sortOptions;
-        sortPreferences.forEach(option => {
-            if(option.name === event.target.value){
-                option.active = true;    
-            }
-            else{
-                option.active = false;
-            }
-        });
-        this.setState({sortOptions: sortPreferences}, 
-            this.setState({decks: this.sortDecks(this.state.decks)}
-        ));
-    }
+    updateDecks(decks){
+        this.setState({decks:decks})
+    }    
 
-    sortDecks(decks){
-        switch(this.state.sortOptions.find(p => p.active).name){
-            case "Alphabetical":
-                decks.sort((a,b) => a.deckName.localeCompare(b.deckName))
-                break;
-            case "Reverse alphabetical":
-                decks.sort((a,b) => b.deckName.localeCompare(a.deckName))
-                break;
-            case "Number of cards (ascending)":
-                decks.sort((a,b) => a.count - b.count)
-                break;
-            case "Number of cards (descending)":
-                decks.sort((a,b) => b.count - a.count)
-                break;
-            default:
-                break;
-        }
-        return decks;
-    }
+
     render(){
         if(this.state.deckSelected){
             if(this.state.playMode){
@@ -259,13 +224,10 @@ class FlashcardMenu extends Component {
                                 <button onClick={this.playAllCards}>Play All</button>
                                 <button onClick={this.deckViewAllCards}>View All</button>
                                 <input className="largeSearchbar" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
-                                <select defaultValue={this.state.sortOptions.find(p => p.active).name} onChange={this.updateSortPreference}>
-                                    <optgroup label="Sort Method"> 
-                                        {this.state.sortOptions.map(sortOption => 
-                                            <option key={sortOption.name}  value={sortOption.name}>{sortOption.name}</option>)
-                                        }
-                                    </optgroup>
-                                </select>
+                                <DeckSortOptions 
+                                    decks={this.state.decks}
+                                    returnDecks={this.updateDecks}
+                                />
                             </div>
                             {this.state.decks.filter(deck => deck.deckName.match(new RegExp(this.state.searchFilter,"g"))).map((deck,index) =>
                                 <div className="deck" key={index}>
