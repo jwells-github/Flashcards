@@ -96,10 +96,10 @@ class PlayView extends Component{
             let answerAccuracy =  (this.state.correctGuesses / (this.state.correctGuesses + this.state.incorrectGuesses)) * 100
             answerAccuracy = Math.round(answerAccuracy * 100) / 100 // Round to 2 decimal places
             return(
-                <div>
+                <div className=''>
+                    <h1>{answerAccuracy}% of answers were correct </h1>
                     <button onClick={this.resetPlayView}>Replay</button>
                     <button onClick={this.props.exitView}>Exit</button>
-                    <h1>{answerAccuracy}% of answers were correct </h1>
                 </div>
             )
         }

@@ -5,7 +5,7 @@ import FlashcardForm from './FlashcardForm';
 import ScreenOverlay from './ScreenOverlay';
 
 
-class DeckView extends Component {
+class DeckDetailView extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -177,4 +177,4 @@ class DeckView extends Component {
     }
 }
 
-export default DeckView;
+export default DeckDetailView;
