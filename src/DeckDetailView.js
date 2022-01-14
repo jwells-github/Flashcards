@@ -104,7 +104,6 @@ class DeckDetailView extends Component {
     hideForm(){
         this.setState({
             displayEditCardForm:false,
-            cardToEdit: {},
             displayEditDeckNameForm:false,
             displayCreateCardForm: false,
         })
