@@ -23,7 +23,7 @@ class Flashcard extends Component {
         document.removeEventListener("mouseup", this.stopDragging);
     }
 
-    flipCard(event){
+    flipCard(){
         if(this.state.commitedToDragging){
             this.setState({commitedToDragging : false})
             return;
