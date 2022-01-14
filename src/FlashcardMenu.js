@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
-import DeckSortOptions from './DeckSortOptions';
 import DeckDetailView from './DeckDetailView';
-import FlashcardForm from './FlashcardForm';
 import PlayView from './PlayView';
-import ScreenOverlay from './ScreenOverlay';
+import DeckList from './DeckList';
 
 class FlashcardMenu extends Component {
     constructor(props){
@@ -17,8 +15,6 @@ class FlashcardMenu extends Component {
             deckSelected: false,
             selectedCards: [],
             allCardsSelected: false,
-            cardCreatedSuccessfully: undefined,
-            displayCardForm: false,
         };
         this.createFlashcard = this.createFlashcard.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -29,8 +25,7 @@ class FlashcardMenu extends Component {
         this.exitPlayView = this.exitPlayView.bind(this);
         this.playDeck = this.playDeck.bind(this);
         this.playAllCards = this.playAllCards.bind(this);
-        this.hideFlashcardForm = this.hideFlashcardForm.bind(this);
-        this.showFlashcardForm = this.showFlashcardForm.bind(this);
+
         this.enterDeckDetailView = this.enterDeckDetailView.bind(this);
         this.enterDeckDetialViewAllCards= this.enterDeckDetialViewAllCards.bind(this);
         this.editDeckName = this.editDeckName.bind(this);
@@ -79,11 +74,16 @@ class FlashcardMenu extends Component {
     }
 
     editFlashcard(cardId, card){
+        console.log(card)
+        console.log(cardId)
+        console.log()
         let allCards = this.state.flashcards.slice();
         let AllCardsindex = allCards.findIndex(card => card._id.match(cardId));
+        console.log(allCards[AllCardsindex]) 
         allCards[AllCardsindex] = card
         let selectedCards = this.state.selectedCards.slice();
         let selectedCardsIndex = selectedCards.findIndex(card => card._id.match(cardId));
+        console.log(selectedCards[selectedCardsIndex])
         selectedCards[selectedCardsIndex] = card
         this.setState({flashcards: allCards, selectedCards: selectedCards})
     }
@@ -96,7 +96,6 @@ class FlashcardMenu extends Component {
         this.setState(prevState => ({
             flashcards: [...prevState.flashcards, card],
             decks: this.getDeckNames([...prevState.flashcards, card]),
-            cardCreatedSuccessfully:true
         }));
         if(this.state.deckSelected){
             // Update DeckDetailView
@@ -107,19 +106,17 @@ class FlashcardMenu extends Component {
     }
 
     createFlashcard(cardFront, cardBack, cardDeck){
-        this.setState({cardCreatedSuccessfully: undefined}, () =>{
-            fetch("/flashcards/create",{
-                method: 'POST',   
-                withCredentials: true,
-                credentials: 'include',
-                headers:{
-                    'Accept': 'application/json',
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify({cardFront: cardFront, cardBack: cardBack, cardDeck: cardDeck}) 
-                }).then(response => response.json()).then(response => 
-                    this.addFlashcard(response));
-        });
+        fetch("/flashcards/create",{
+            method: 'POST',   
+            withCredentials: true,
+            credentials: 'include',
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({cardFront: cardFront, cardBack: cardBack, cardDeck: cardDeck}) 
+            }).then(response => response.json()).then(response => 
+                this.addFlashcard(response));
     }
     updateCardDeck(value){
         this.setState({cardDeck:value})
@@ -165,85 +162,49 @@ class FlashcardMenu extends Component {
         }
         else{
             this.setState({deckSelected: false, selectedCards: [], playMode: false})
+            this.props.hideBackButton();
         }
-        this.props.hideBackButton();
     }
-    hideFlashcardForm(){
-        this.setState({displayCardForm:false})
-    }
-    showFlashcardForm(){
-        this.setState({displayCardForm:true})
-    }
+
     updateDecks(decks){
         this.setState({decks:decks})
-    }    
+    }   
+    
 
     render(){
+        if(this.state.playMode){
+            return(
+                <PlayView
+                    cards={this.state.selectedCards}
+                    exitView={this.exitPlayView}/>
+            )
+        }
         if(this.state.deckSelected){
-            if(this.state.playMode){
-                return(
-                        <PlayView
-                            cards={this.state.selectedCards}
-                            exitView={this.exitPlayView}/>
-                )
-            }
-            else{
-                return(
-                    <div>
-                        <DeckDetailView
-                            cards={this.state.selectedCards}
-                            removeFlashcard = {this.removeFlashcard}
-                            editFlashcard={this.editFlashcard}
-                            createFlashcard={this.createFlashcard}
-                            decks={this.state.decks}
-                            exitView={this.exitDeckDetailView}
-                            playDeck={() => this.playDeck(this.state.selectedCards[0].cardDeck)}
-                            editDeckName={this.editDeckName}
-                            isDisplayingAllDecks={this.state.allCardsSelected}
-                        />
-                    </div>
-                   )
-            }
+            return(
+                <DeckDetailView
+                    cards={this.state.selectedCards}
+                    removeFlashcard = {this.removeFlashcard}
+                    editFlashcard={this.editFlashcard}
+                    createFlashcard={this.createFlashcard}
+                    decks={this.state.decks}
+                    exitView={this.exitDeckDetailView}
+                    playDeck={this.playDeck}
+                    editDeckName={this.editDeckName}
+                    isDisplayingAllDecks={this.state.allCardsSelected}
+                />
+            )
         }
         else{   
             return(
-                <div className="flashcardMenu">
-                    <ScreenOverlay hideOverlay={this.hideFlashcardForm} displayOverlay={this.state.displayCardForm}>
-                        <FlashcardForm
-                            hideOverlay={this.hideFlashcardForm}
-                            decks={this.state.decks.map(deck => deck.deckName)} 
-                            returnCard={this.createFlashcard}
-                            cardHandlingSuccess={this.state.cardCreatedSuccessfully}
-                        />
-                    </ScreenOverlay>
-                    <div className="deckContainer">
-                        <div className="decks">
-                            <div className="deckOptions">
-                                <button onClick={this.showFlashcardForm}>Add a flashcard</button>
-                                <button onClick={this.playAllCards}>Play All</button>
-                                <button onClick={this.enterDeckDetialViewAllCards}>View All</button>
-                                <input className="largeSearchbar" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
-                                <DeckSortOptions 
-                                    decks={this.state.decks}
-                                    returnDecks={this.updateDecks}
-                                />
-                            </div>
-                            {this.state.decks.filter(deck => deck.deckName.match(new RegExp(this.state.searchFilter,"g"))).map((deck,index) =>
-                                <div className="deck" key={index}>
-                                    <h1>{deck.deckName}</h1>
-                                    <span>{deck.count} {deck.count > 1 ? "cards" : "card"}</span>
-                                    <div>
-                                        <button onClick={() => this.playDeck(deck.deckName)}>Play Deck</button>
-                                        <button onClick={() => this.enterDeckDetailView
-                                (deck.deckName)}>Edit Deck</button>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                </div>
-               )
+                <DeckList
+                    decks={this.state.decks}
+                    createFlashcard={this.createFlashcard}
+                    updateDecks={this.updateDecks}
+                    playAllCards={this.playAllCards}
+                    enterDeckDetialViewAllCards={this.enterDeckDetialViewAllCards}
+                    enterDeckDetailView={this.enterDeckDetailView}
+                    playDeck={this.playDeck}/>
+            )
         }
 
       }
