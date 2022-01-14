@@ -52,7 +52,7 @@ class InputSuggestion extends Component {
     updateSuggestions(event){
         this.setState({ 
             selectedSuggestion: -1,
-            filteredData : this.props.dataArray.filter(data => data.match(new RegExp(event.target.value,"i"))).sort()
+            filteredData : this.props.dataArray.filter(data => data.match(new RegExp("^"+event.target.value,"i"))).sort()
          });
          this.props.updateInputValue(event.target.value);
     }
@@ -65,7 +65,7 @@ class InputSuggestion extends Component {
         this.props.updateInputValue(suggestion)
     }
     hideSuggestions(){
-        this.setState({displaySuggestions: false})
+        setTimeout(() => {this.setState({displaySuggestions: false})}, 300)
     }
     displaySuggestions(){
         this.setState({displaySuggestions: true})
@@ -86,7 +86,8 @@ class InputSuggestion extends Component {
                             key={index}
                             id={this.state.selectedSuggestion === index  ? "InputSuggestion-Selected" : ""}  
                             value={item} 
-                            onClick={() => this.useSuggestion(item)}>{item}
+                            onClick={() => this.useSuggestion(item)}>
+                                {item}
                         </span>)}
                 </div>
             </div>
