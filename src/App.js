@@ -15,6 +15,7 @@ class App extends Component {
     this.setLoginStatus = this.setLoginStatus.bind(this)
     this.showBackButton = this.showBackButton.bind(this);
     this.hideBackButton = this.hideBackButton.bind(this);
+    this.getBody = this.getBody.bind(this);
   }
 
   componentDidMount(){
@@ -38,18 +39,18 @@ class App extends Component {
   hideBackButton(){
     this.setState({displayBackButton: false})
   }
-  
   historyBack(){
     window.history.back()
   }
-  render() {
-    let body = <EntranceForm setLoginStatus={this.setLoginStatus}/>; 
+  getBody(){
     if(this.state.loggedIn){
-      body =  <FlashcardMenu
-                 hideBackButton ={this.hideBackButton}
-                 showBackButton = {this.showBackButton}
-              />
+      return  <FlashcardMenu hideBackButton ={this.hideBackButton} showBackButton = {this.showBackButton}/>
     }
+    else{
+      return <EntranceForm setLoginStatus={this.setLoginStatus}/>; 
+    }
+  }
+  render() {
     return (
       <div className="App"> 
         <div className="header">
@@ -60,7 +61,7 @@ class App extends Component {
             <span>{this.state.loggedIn ? "You are logged in" : ""}</span>
           </div>
         </div>
-        {body}
+        {this.getBody()}
       </div>
     );
   }
