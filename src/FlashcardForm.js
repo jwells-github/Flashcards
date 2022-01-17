@@ -44,7 +44,7 @@ class FlashcardForm extends Component {
     render(){
         return(
             <form className="flashcardForm" onSubmit={this.handleSubmit}>
-                <button onClick={this.props.hideOverlay}>hide</button>
+                <button className='hideFormButton' onClick={this.props.hideOverlay}>hide</button>
                 <div className="formField">
                     <label htmlFor="cardFront">Front Text:</label>
                     <textarea name="cardFront" type="text" value={this.state.cardFront} onChange={this.handleChange}/>
