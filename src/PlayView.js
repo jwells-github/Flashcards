@@ -91,12 +91,11 @@ class PlayView extends Component{
         this.setState({mouseX : event.screenX, mouseY : event.screenY})
     }
     render(){
-        
         if(this.state.displayEndDialogue){
             let answerAccuracy =  (this.state.correctGuesses / (this.state.correctGuesses + this.state.incorrectGuesses)) * 100
             answerAccuracy = Math.round(answerAccuracy * 100) / 100 // Round to 2 decimal places
             return(
-                <div className=''>
+                <div className='endDialogue'>
                     <h1>{answerAccuracy}% of answers were correct </h1>
                     <button onClick={this.resetPlayView}>Replay</button>
                     <button onClick={this.props.exitView}>Exit</button>
@@ -106,7 +105,6 @@ class PlayView extends Component{
         else{
             let currentCard = this.state.cardsInPlay[this.state.positionInCards]
             return(
-            
                 <div onMouseMove={this.updateMousePosition} className="playView">
                     <h1>Playing cards from: <br/> {currentCard.cardDeck}</h1>
                     <Flashcard 

@@ -187,6 +187,9 @@ html,body{
     width: 90%;
     height: 40px;
 }
+.endDialogue{
+    margin-top: 22%;
+}
 
 .formWarning{
     margin:1em 1.5em;
