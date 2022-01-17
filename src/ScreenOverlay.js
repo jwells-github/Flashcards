@@ -15,7 +15,7 @@ class ScreenOverlay extends Component {
     render(){
         return(
         <div  className={this.props.displayOverlay ? "screenOverlay" : "hide"} onMouseDown={this.hideOverlay}>
-            {this.props.children}
+            {this.props.displayOverlay ? this.props.children : ''}
         </div>
         )
     }
