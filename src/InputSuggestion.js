@@ -17,6 +17,11 @@ class InputSuggestion extends Component {
         this.displaySuggestions = this.displaySuggestions.bind(this);
     }
 
+    componentWillUnmount(){
+        if(this.hideSuggestionsTimer){
+            clearTimeout(this.hideSuggestionsTimer);
+        }
+    }
     handleSuggestionInput(event){
         if(this.state.filteredData.length <= 0){
             return;
@@ -65,7 +70,7 @@ class InputSuggestion extends Component {
         this.props.updateInputValue(suggestion)
     }
     hideSuggestions(){
-        setTimeout(() => {this.setState({displaySuggestions: false})}, 300)
+       this.hideSuggestionsTimer = setTimeout(() => {this.setState({displaySuggestions: false})}, 300)
     }
     displaySuggestions(){
         this.setState({displaySuggestions: true})
