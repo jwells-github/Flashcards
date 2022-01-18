@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import { requestSignup } from './serverFetches';
 
 class SignUpForm extends Component {
     constructor(props){
@@ -18,20 +19,8 @@ class SignUpForm extends Component {
     signUp(event){
         event.preventDefault();
         if(this.state.signUpUsername === '' || this.state.signUpPassword === '') return;
-        fetch("/signup",{
-          method: 'POST',
-          mode: 'cors',
-          cache: 'no-cache',
-          withCredentials: true,
-          credentials: 'include',
-          headers:{
-            'Accept': 'application/json',
-            'Content-Type':'application/json'
-          },
-          redirect: 'follow',
-          referrerPolicy: 'no-referrer',
-          body: JSON.stringify({username: this.state.signUpUsername, password: this.state.signUpPassword}) 
-        }).then(response => response.json()).then(response => this.props.handleResponse(response));
+        requestSignup(this.state.signUpUsername,this.state.signUpPassword)
+          .then(response => this.props.handleResponse(response));
       }
 
       render(){

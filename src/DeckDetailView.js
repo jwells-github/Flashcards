@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import './Styles/DeckView.css';
+import './Styles/DeckDetailView.css';
 import DeckNameForm from './DeckNameForm';
 import FlashcardForm from './FlashcardForm';
 import ScreenOverlay from './ScreenOverlay';
+import { requestDeleteCard, requestEditCard } from './serverFetches';
 
 
 class DeckDetailView extends Component {
@@ -39,16 +40,7 @@ class DeckDetailView extends Component {
 
     deleteCard(card){
         if(window.confirm("Are you sure you want to delete this card?\r\n" + card.cardFront + "\r\n" + card.cardBack)){
-            fetch("/flashcards/delete",{
-                method: 'POST',
-                withCredentials: true,
-                credentials: 'include',
-                headers:{
-                  'Accept': 'application/json',
-                  'Content-Type':'application/json'
-                },
-                body: JSON.stringify({cardId: card._id})
-            }).then(response => response.json()).then(response => this.handleDeleteResponse(response, card._id));
+            requestDeleteCard(card._id).then(response => this.handleDeleteResponse(response, card._id));
         }
     }
     handleDeleteResponse(response, cardId){
@@ -61,21 +53,8 @@ class DeckDetailView extends Component {
     }   
 
     editCard(cardFront, cardBack, cardDeck){
-        fetch("/flashcards/edit",{
-            method: 'POST',
-            withCredentials: true,
-            credentials: 'include',
-            headers:{
-              'Accept': 'application/json',
-              'Content-Type':'application/json'
-            },
-            body: JSON.stringify({
-                cardId: this.state.cardToEdit._id,
-                cardFront: cardFront,
-                cardBack: cardBack,
-                cardDeck: cardDeck    
-            })
-        }).then(response => response.json()).then(response => this.handleEditResponse(response, this.state.cardToEdit._id));
+        requestEditCard(this.state.cardToEdit._id, cardFront, cardBack, cardDeck)
+            .then(response => this.handleEditResponse(response, this.state.cardToEdit._id));
     }
     handleEditResponse(response, cardId){
         if(response.success){
@@ -125,7 +104,7 @@ class DeckDetailView extends Component {
                     <tr>    
                         <th className="colCardFront">Card Front</th>
                         <th className="colCardBack">Card Back</th>
-                        {this.props.isDisplayingAllDecks ? <th className='colCardDeck'>Deck</th> : ""}
+                        <th className={this.props.isDisplayingAllDecks ? 'colCardDeck' :'hide'}>Deck</th>
                         <th className='colCardDate'>Created Date</th>
                         <th className='colCardAction'></th>
                         <th className='colCardAction'></th>
@@ -139,7 +118,7 @@ class DeckDetailView extends Component {
                             <tr key={index}>
                                 <td className='colCardFront'>{card.cardFront}</td>
                                 <td className='colCardBack'>{card.cardBack}</td>
-                                {this.props.isDisplayingAllDecks ? <td className='colCardDeck' title={card.cardDeck}>{card.cardDeck}</td> : ""}
+                                <td className={this.props.isDisplayingAllDecks ? 'colCardDeck' :'hide'} title={card.cardDeck}>{card.cardDeck}</td>
                                 <td className='colCardDate'>{new Date(card.dateCreated).toLocaleDateString('en-GB')}</td>
                                 <td className='colCardAction tableAction'><span onClick={()=>this.displayEditCardForm(card)}>Edit</span></td>
                                 <td className='colCardAction tableAction'><span onClick={()=>this.deleteCard(card)}>Delete</span></td>

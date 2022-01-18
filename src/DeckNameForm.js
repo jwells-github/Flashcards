@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import InputSuggestion from './InputSuggestion';
+import { requestEditDeck } from './serverFetches';
 
 class DeckNameForm extends Component {
         constructor(props){
@@ -29,30 +30,20 @@ class DeckNameForm extends Component {
             this.setState({displayMergeWarning: true})
         }
         else{
-            this.props.hideOverlay()
             this.editDeckName(this.props.cardDeck, this.state.cardDeck)
         }
     }
 
     editDeckName(oldDeckName, newDeckName){
         this.setState({errorEditingDeck: false}, () =>{
-            fetch("/deck/edit",{
-                method: 'POST',   
-                withCredentials: true,
-                credentials: 'include',
-                headers:{
-                    'Accept': 'application/json',
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify({oldDeckName: oldDeckName, newDeckName: newDeckName }) 
-                }).then(response => response.json()).then(response => {
+            requestEditDeck(oldDeckName, newDeckName).then(response => {
                     if(response.success){   
                         this.props.editDeckName(oldDeckName, newDeckName)
                     }
                     else{
                         this.setState({errorEditingDeck: true})
                     }
-                    
+                    this.props.hideOverlay()
                 });
         });
     }

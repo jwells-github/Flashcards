@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import DeckDetailView from './DeckDetailView';
 import PlayView from './PlayView';
 import DeckList from './DeckList';
+import { requestCreateFlashcard, requestFlashcards } from './serverFetches';
 
 class FlashcardMenu extends Component {
     constructor(props){
@@ -33,12 +34,7 @@ class FlashcardMenu extends Component {
     }
 
     componentDidMount(){
-        fetch('/flashcards/get',{
-            withCredentials: true,
-            credentials: 'include'
-          })
-            .then(response => response.json())
-            .then(response => {
+        requestFlashcards().then(response => {
                 this.setState({
                     flashcards: response.flashcards,
                     decks: this.getDeckNames(response.flashcards)
@@ -74,18 +70,13 @@ class FlashcardMenu extends Component {
     }
 
     editFlashcard(cardId, card){
-        console.log(card)
-        console.log(cardId)
-        console.log()
         let allCards = this.state.flashcards.slice();
         let AllCardsindex = allCards.findIndex(card => card._id.match(cardId));
-        console.log(allCards[AllCardsindex]) 
         allCards[AllCardsindex] = card
         let selectedCards = this.state.selectedCards.slice();
         let selectedCardsIndex = selectedCards.findIndex(card => card._id.match(cardId));
-        console.log(selectedCards[selectedCardsIndex])
         selectedCards[selectedCardsIndex] = card
-        this.setState({flashcards: allCards, selectedCards: selectedCards})
+        this.setState({flashcards: allCards, selectedCards: selectedCards, decks:this.getDeckNames(allCards)})
     }
 
     handleChange(event) {
@@ -106,16 +97,7 @@ class FlashcardMenu extends Component {
     }
 
     createFlashcard(cardFront, cardBack, cardDeck){
-        fetch("/flashcards/create",{
-            method: 'POST',   
-            withCredentials: true,
-            credentials: 'include',
-            headers:{
-                'Accept': 'application/json',
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify({cardFront: cardFront, cardBack: cardBack, cardDeck: cardDeck}) 
-            }).then(response => response.json()).then(response => 
+        requestCreateFlashcard(cardFront,cardBack,cardDeck).then(response => 
                 this.addFlashcard(response));
     }
     updateCardDeck(value){

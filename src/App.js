@@ -3,6 +3,7 @@ import './Styles/Styles.css';
 import React, {Component} from 'react'
 import EntranceForm from './EntranceForm';
 import FlashcardMenu from './FlashcardMenu';
+import { requestUser } from './serverFetches';
 
 class App extends Component {
   constructor(props) {
@@ -19,12 +20,7 @@ class App extends Component {
   }
 
   componentDidMount(){
-    fetch('/user',{
-      withCredentials: true,
-      credentials: 'include'
-    })
-      .then(response => response.json())
-      .then(state  => {
+    requestUser().then(state  => {
         this.setState(state)
         this.setState({loading:false})
       });
