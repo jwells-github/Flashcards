@@ -20,12 +20,14 @@ class DeckNameForm extends Component {
     updateCardDeck(value){
         this.setState({cardDeck:value, displayMergeWarning: false, displayCurrentNameWarning: false})
     }
+
     handleSubmit(event){
         event.preventDefault();
         if(this.state.cardDeck === '') return;
         if(this.state.cardDeck === this.props.cardDeck){
             this.setState({displayCurrentNameWarning: true})
         }
+        // Warn the user that the deckname is in use
         else if(this.props.decks.includes(this.state.cardDeck) && !this.state.displayMergeWarning){
             this.setState({displayMergeWarning: true})
         }
@@ -39,11 +41,11 @@ class DeckNameForm extends Component {
             requestEditDeck(oldDeckName, newDeckName).then(response => {
                     if(response.success){   
                         this.props.editDeckName(oldDeckName, newDeckName)
+                        this.props.hideOverlay()
                     }
                     else{
                         this.setState({errorEditingDeck: true})
                     }
-                    this.props.hideOverlay()
                 });
         });
     }
@@ -74,8 +76,17 @@ class DeckNameForm extends Component {
                     </div>
         }
     }
+
+    getSubmissionError(){
+        if(this.state.errorEditingDeck){
+            return <div>
+                        <h1>Warning:</h1>
+                        <span>There was an error processing your request, please try again</span>
+                   </div>
+        }
+    }
+    
     render(){
-        let mergeWarning = this.getFormWarning();
         return(
             <div className="flashcardForm">
                 <button onClick={this.props.hideOverlay}>hide</button>  
@@ -87,7 +98,8 @@ class DeckNameForm extends Component {
                         updateInputValue = {this.updateCardDeck}
                     />                 
                     <button className="flashcardSubmitButton" type="submit">Submit Card</button>
-                    {mergeWarning}
+                    {this.getFormWarning()}
+                    {this.getSubmissionError()}
                 </form>
             </div>
         )
