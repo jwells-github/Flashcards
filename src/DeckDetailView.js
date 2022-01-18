@@ -10,10 +10,7 @@ class DeckDetailView extends Component {
     constructor(props){
         super(props);
         this.state = {
-            filteredData: [],
-            InputValue: '',
             searchFilter: '',
-            selectedSuggestion: 0,
             cardToEdit: {},
             displayEditCardForm: false,
             displayEditDeckNameForm: false,
@@ -28,8 +25,8 @@ class DeckDetailView extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    
     componentDidMount(){
+        // Take user back to FlashcardMenu on backpress
         window.history.pushState({}, document.title)
         window.onpopstate = this.props.exitView;
     }
@@ -43,6 +40,7 @@ class DeckDetailView extends Component {
             requestDeleteCard(card._id).then(response => this.handleDeleteResponse(response, card._id));
         }
     }
+
     handleDeleteResponse(response, cardId){
         if(response.success){
             this.props.removeFlashcard(cardId)
@@ -56,6 +54,7 @@ class DeckDetailView extends Component {
         requestEditCard(this.state.cardToEdit._id, cardFront, cardBack, cardDeck)
             .then(response => this.handleEditResponse(response, this.state.cardToEdit._id));
     }
+
     handleEditResponse(response, cardId){
         if(response.success){
             this.props.editFlashcard(cardId,response.card)
@@ -126,6 +125,7 @@ class DeckDetailView extends Component {
                     )}  
                 </tbody>
             </table>
+            {/* Overlay for editing a card */}
             <ScreenOverlay hideOverlay = {this.hideForm} displayOverlay = {this.state.displayEditCardForm}>
                 <FlashcardForm
                     hideOverlay={this.hideForm}
@@ -135,6 +135,7 @@ class DeckDetailView extends Component {
                     cardBack={this.state.cardToEdit.cardBack}
                     cardDeck={this.state.cardToEdit.cardDeck}/>
             </ScreenOverlay>
+            {/* Overlay for editing the deckname of all cards */}
             <ScreenOverlay hideOverlay = {this.hideForm} displayOverlay = {this.state.displayEditDeckNameForm}>
                 <DeckNameForm
                     hideOverlay={this.hideForm}
@@ -143,6 +144,7 @@ class DeckDetailView extends Component {
                     cardDeck={this.props.cards[0].cardDeck}
                 />
             </ScreenOverlay>
+            {/* Overlay for creating a card*/}
             <ScreenOverlay hideOverlay={this.hideForm} displayOverlay = {this.state.displayCreateCardForm}>
                 <FlashcardForm
                         hideOverlay={this.hideForm}
