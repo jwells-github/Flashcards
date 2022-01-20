@@ -35,7 +35,7 @@ class SignUpForm extends Component {
                   <label htmlFor="signUpPassword">Password:</label>
                   <input name="signUpPassword" type="password" onChange={this.handleChange}/>
                 </div>
-                <button type="submit">Signup</button>
+                <button type="submit">Sign up</button>
               </form>
             </div>
           )
