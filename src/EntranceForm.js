@@ -10,7 +10,7 @@ class EntranceForm extends Component {
             formError: '',
         };
         this.handleResponse = this.handleResponse.bind(this);
-      
+
     }
 
     displayLoginForm(bool){
