@@ -10,6 +10,7 @@ class EntranceForm extends Component {
             formError: '',
         };
         this.handleResponse = this.handleResponse.bind(this);
+      
     }
 
     displayLoginForm(bool){
@@ -30,23 +31,35 @@ class EntranceForm extends Component {
         }   
     }
 
-      render(){
-          let form = this.state.showLoginForm ? <LoginForm handleResponse={this.handleResponse}/> : <SignUpForm handleResponse={this.handleResponse}/>
-          return(
-            <div className="entranceForm">
+    getForm(){
+      if(this.state.showLoginForm){
+        return(
+        <LoginForm handleResponse={this.handleResponse}/>
+        )
+      }
+      else{
+        return(
+          <SignUpForm handleResponse={this.handleResponse}/>
+        )
+      }
+    }
+
+    render(){
+        return(
+          <div className="entranceForm">
             <div className="selectionButtons">
                 <h2
-                 className={this.state.showLoginForm ? "" : "faded"}
-                 onClick={() => this.displayLoginForm(true)}>Log in</h2>
+                  className={this.state.showLoginForm ? "" : "faded"}
+                  onClick={() => this.displayLoginForm(true)}>Log in</h2>
                 <h2 
                 className={this.state.showLoginForm ? "faded" : ""}
                 onClick={() => this.displayLoginForm(false)}>Sign Up</h2>
             </div>
-            {form}
+            {this.getForm()}
             <p>{this.state.formError}</p>
           </div>
-          )
-      }
+        )
+    }
 }
 
 export default EntranceForm;
