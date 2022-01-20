@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import EntranceForm from './EntranceForm';
+import EntranceForm from '../EntranceForm';
 
 test('login form is displayed by default', () =>{
     render(<EntranceForm/>)
