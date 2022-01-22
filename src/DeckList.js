@@ -8,6 +8,7 @@ class DeckList extends Component {
         super(props);
         this.state = {
             displayCardForm: false,
+            searchFilter: ''
         };
         this.hideFlashcardForm = this.hideFlashcardForm.bind(this);
         this.showFlashcardForm = this.showFlashcardForm.bind(this);
@@ -42,7 +43,7 @@ class DeckList extends Component {
                             <button onClick={this.showFlashcardForm}>Add a flashcard</button>
                             <button onClick={this.props.playAllCards}>Play All</button>
                             <button onClick={this.props.enterDeckDetialViewAllCards}>View All</button>
-                            <input className="largeSearchbar" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
+                            <input className="largeSearchbar" aria-label="deckSearch" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
                             <DeckSortOptions 
                                 decks={this.props.decks}
                                 returnDecks={this.props.updateDecks}
@@ -66,4 +67,4 @@ class DeckList extends Component {
     }
 }
 
-export default DeckList;
+export default DeckList; 
