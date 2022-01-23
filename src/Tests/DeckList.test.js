@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen} from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
 import DeckList from '../DeckList';
 
 const testDecks=[
@@ -20,7 +21,7 @@ test('typing in the searchbar filters the decklist', () =>{
     let deckWeSearchedFor = 'Frog Facts'
     let deckThatShouldNotShowUp = 'Fish Facts'
     let searchBox = screen.getByRole('textbox', {name: 'deckSearch'})
-    fireEvent.change(searchBox, {target: {value : deckWeSearchedFor}})
+    userEvent.type(searchBox , deckWeSearchedFor)
     expect(screen.getByRole('heading', {name: deckWeSearchedFor})).toBeTruthy();
     expect(screen.queryByRole('heading', {name: deckThatShouldNotShowUp})).toBeNull();
 })
@@ -30,14 +31,17 @@ test('the searchbar will return partial matches', ()=>{
     let searchTerm = 'Facts'
     let partialMatchOne = 'Frog Facts'
     let partialMatchTwo = 'Fish Facts'
+    let deckThatShouldNotShowUp = 'Iguana Inquerys'
     let searchBox = screen.getByRole('textbox', {name: 'deckSearch'})
-    fireEvent.change(searchBox, {target: {value : searchTerm}})
+    userEvent.type(searchBox , searchTerm)
     expect(screen.getByRole('heading', {name: partialMatchOne})).toBeTruthy();
     expect(screen.getByRole('heading', {name: partialMatchTwo})).toBeTruthy();
+    expect(screen.queryByRole('heading', {name: deckThatShouldNotShowUp})).toBeNull();
 })
 
 test('clicking add card will display the form overlay', () =>{
     render(<DeckList decks={testDecks}/>)
-    fireEvent.click(screen.getByRole('button', {name: 'Add a flashcard'}));
+    expect(screen.queryByRole('button', {name: 'Submit Card'})).toBeNull();
+    userEvent.click(screen.getByRole('button', {name: 'Add a flashcard'}));
     expect(screen.getByRole('button', {name: 'Submit Card'})).toBeTruthy();
 })

@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
 import EntranceForm from '../EntranceForm';
 
 test('login form is displayed by default', () =>{
@@ -11,7 +12,7 @@ test('login form is displayed by default', () =>{
 
 test('clicking Sign up should display the sign up form', () =>{
     render (<EntranceForm/>)
-    fireEvent.click(screen.getByRole('heading', {name: 'Sign up'}));
+    userEvent.click(screen.getByRole('heading', {name: 'Sign up'}));
     expect(screen.getByRole('button', {name: 'Sign up'})).toBeTruthy();
     expect(screen.getByRole('heading', {name: 'Sign up'})).not.toHaveClass('faded')
     expect(screen.getByRole('heading', {name: 'Log in'})).toHaveClass('faded')
