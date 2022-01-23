@@ -37,13 +37,19 @@ class DeckDetailView extends Component {
 
     deleteCard(card){
         if(window.confirm("Are you sure you want to delete this card?\r\n" + card.cardFront + "\r\n" + card.cardBack)){
-            requestDeleteCard(card._id).then(response => this.handleDeleteResponse(response, card._id));
+            if(this.props.inGuestMode === false){
+                requestDeleteCard(card._id).then(response => this.handleDeleteResponse(response, card));
+            }
+            else{
+               let mockResponse = {success:true} 
+               this.handleDeleteResponse(mockResponse, card) 
+            }
         }
     }
 
-    handleDeleteResponse(response, cardId){
+    handleDeleteResponse(response, card){
         if(response.success){
-            this.props.removeFlashcard(cardId)
+            this.props.removeFlashcard(card)
         }
         else{
             alert(response.message);
@@ -51,8 +57,24 @@ class DeckDetailView extends Component {
     }   
 
     editCard(cardFront, cardBack, cardDeck){
-        requestEditCard(this.state.cardToEdit._id, cardFront, cardBack, cardDeck)
-            .then(response => this.handleEditResponse(response, this.state.cardToEdit._id));
+        if(this.props.inGuestMode === false){
+            requestEditCard(this.state.cardToEdit._id, cardFront, cardBack, cardDeck)
+                .then(response =>
+                    this.handleEditResponse(response, this.state.cardToEdit._id));
+        }
+        else{
+            let mockResponse = {
+                success:true, 
+                card:{
+                    _id: this.state.cardToEdit._id,
+                    cardFront:cardFront,
+                    cardBack:cardBack,
+                    cardDeck: cardDeck
+                }
+            }; 
+            this.handleEditResponse(mockResponse,this.state.cardToEdit._id) 
+        }
+        
     }
 
     handleEditResponse(response, cardId){
@@ -142,6 +164,7 @@ class DeckDetailView extends Component {
                     decks={this.props.decks.map(deck => deck.deckName)} 
                     editDeckName={this.props.editDeckName}
                     cardDeck={this.props.cards[0].cardDeck}
+                    inGuestMode={this.props.inGuestMode}
                 />
             </ScreenOverlay>
             {/* Overlay for creating a card*/}

@@ -38,7 +38,8 @@ class DeckNameForm extends Component {
 
     editDeckName(oldDeckName, newDeckName){
         this.setState({errorEditingDeck: false}, () =>{
-            requestEditDeck(oldDeckName, newDeckName).then(response => {
+            if(this.props.inGuestMode === false){
+                requestEditDeck(oldDeckName, newDeckName).then(response => {
                     if(response.success){   
                         this.props.editDeckName(oldDeckName, newDeckName)
                         this.props.hideOverlay()
@@ -47,6 +48,12 @@ class DeckNameForm extends Component {
                         this.setState({errorEditingDeck: true})
                     }
                 });
+            }
+            else{
+                this.props.editDeckName(oldDeckName,newDeckName)
+                this.props.hideOverlay()
+            }
+
         });
     }
 

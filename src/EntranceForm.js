@@ -46,18 +46,25 @@ class EntranceForm extends Component {
 
     render(){
         return(
-          <div className="entranceForm">
-            <div className="selectionButtons">
-                <h2
-                  className={this.state.showLoginForm ? "" : "faded"}
-                  onClick={() => this.displayLoginForm(true)}>Log in</h2>
-                <h2 
-                className={this.state.showLoginForm ? "faded" : ""}
-                onClick={() => this.displayLoginForm(false)}>Sign up</h2>
+          <div>
+            <div className="entranceForm">
+              <div className="selectionButtons">
+                  <h2
+                    className={this.state.showLoginForm ? "" : "faded"}
+                    onClick={() => this.displayLoginForm(true)}>Log in</h2>
+                  <h2 
+                  className={this.state.showLoginForm ? "faded" : ""}
+                  onClick={() => this.displayLoginForm(false)}>Sign up</h2>
+              </div>
+              {this.getForm()}
+              <p>{this.state.formError}</p>
             </div>
-            {this.getForm()}
-            <p>{this.state.formError}</p>
+            <div>
+              <button onClick={() => this.props.setGuestStatus(true)}>Demo the App in guest mode</button>
+              <span>All data will be lost when session ends</span>
+            </div>
           </div>
+
         )
     }
 }

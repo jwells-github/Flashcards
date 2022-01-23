@@ -26,7 +26,6 @@ class FlashcardMenu extends Component {
         this.exitPlayView = this.exitPlayView.bind(this);
         this.playDeck = this.playDeck.bind(this);
         this.playAllCards = this.playAllCards.bind(this);
-
         this.enterDeckDetailView = this.enterDeckDetailView.bind(this);
         this.enterDeckDetialViewAllCards= this.enterDeckDetialViewAllCards.bind(this);
         this.editDeckName = this.editDeckName.bind(this);
@@ -34,12 +33,14 @@ class FlashcardMenu extends Component {
     }
 
     componentDidMount(){
-        requestFlashcards().then(response => {
+        if(this.props.inGuestMode === false){
+            requestFlashcards().then(response => {
                 this.setState({
                     flashcards: response.flashcards,
                     decks: this.getDeckNames(response.flashcards)
                 });
             });
+        }
     }
 
     getDeckNames(flashcards){
@@ -61,11 +62,21 @@ class FlashcardMenu extends Component {
         })
         this.setState({flashcards: editedFlashcards, decks:this.getDeckNames(editedFlashcards)})
     }
-    removeFlashcard(cardId){
-        let filteredFlashcards = this.state.flashcards.filter(card => !card._id.match(cardId));
+    removeFlashcard(removedCard){
+        let filteredFlashcards = this.state.flashcards.filter(card => !card._id.match(removedCard._id));
         this.setState({
             flashcards: filteredFlashcards,
             decks: this.getDeckNames(filteredFlashcards)
+        }, () =>{
+            if(this.state.deckSelected){
+                // Update DeckDetailView
+                if(this.state.allCardsSelected){
+                    this.setState({selectedCards: this.state.flashcards})
+                }
+                else{
+                    this.selectDeck(removedCard.cardDeck)
+                }
+            }
         })
     }
 
@@ -87,19 +98,34 @@ class FlashcardMenu extends Component {
         this.setState(prevState => ({
             flashcards: [...prevState.flashcards, card],
             decks: this.getDeckNames([...prevState.flashcards, card]),
-        }));
-        if(this.state.deckSelected){
-            // Update DeckDetailView
-            if(this.state.selectedCards.length){
-                this.selectDeck(this.state.selectedCards[0].cardDeck)
+        }), () =>{
+            if(this.state.deckSelected){
+                // Update DeckDetailView
+                if(this.state.allCardsSelected){
+                    this.setState({selectedCards: this.state.flashcards})
+                }
+                else{
+                    this.selectDeck(card.cardDeck)
+                }
             }
-        }
-    }
+        });
 
-    createFlashcard(cardFront, cardBack, cardDeck){
-        requestCreateFlashcard(cardFront,cardBack,cardDeck).then(response => 
-                this.addFlashcard(response));
     }
+    createFlashcard(cardFront, cardBack, cardDeck){
+        if(this.props.inGuestMode === false){
+            requestCreateFlashcard(cardFront,cardBack,cardDeck).then(response => 
+                this.addFlashcard(response));
+        }
+        else{
+            this.addFlashcard({
+                _id: String((Date.now() + Math.random())), // likely a unique id
+                cardFront: cardFront,
+                cardBack: cardBack,
+                cardDeck: cardDeck,
+                dateCreated: Date.now()
+            });
+        }
+    }   
     updateCardDeck(value){
         this.setState({cardDeck:value})
     }
@@ -173,6 +199,7 @@ class FlashcardMenu extends Component {
                     playDeck={this.playDeck}
                     editDeckName={this.editDeckName}
                     isDisplayingAllDecks={this.state.allCardsSelected}
+                    inGuestMode={this.props.inGuestMode}
                 />
             )
         }

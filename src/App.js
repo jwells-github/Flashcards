@@ -11,9 +11,11 @@ class App extends Component {
     this.state = {
       loading: true,
       loggedIn: false,
+      guestMode: false,
       displayBackButton: false,
     };
-    this.setLoginStatus = this.setLoginStatus.bind(this)
+    this.setLoginStatus = this.setLoginStatus.bind(this);
+    this.setGuestStatus = this.setGuestStatus.bind(this);
     this.showBackButton = this.showBackButton.bind(this);
     this.hideBackButton = this.hideBackButton.bind(this);
     this.getBody = this.getBody.bind(this);
@@ -29,6 +31,9 @@ class App extends Component {
   setLoginStatus(bool){
     this.setState({loggedIn: bool})
   }
+  setGuestStatus(bool){
+    this.setState({guestMode: bool})
+  }
   showBackButton(){
     this.setState({displayBackButton: true})
   }
@@ -39,11 +44,18 @@ class App extends Component {
     window.history.back()
   }
   getBody(){
-    if(this.state.loggedIn){
-      return  <FlashcardMenu hideBackButton ={this.hideBackButton} showBackButton = {this.showBackButton}/>
+    if(this.state.loggedIn || this.state.guestMode){
+      return  <FlashcardMenu 
+                hideBackButton={this.hideBackButton} 
+                showBackButton={this.showBackButton}
+                inGuestMode={this.state.guestMode}
+              />
     }
     else{
-      return <EntranceForm setLoginStatus={this.setLoginStatus}/>; 
+      return <EntranceForm 
+                setLoginStatus={this.setLoginStatus}
+                setGuestStatus={this.setGuestStatus}
+              />; 
     }
   }
   render() {
@@ -54,7 +66,7 @@ class App extends Component {
             <i onClick={this.historyBack} className={this.state.displayBackButton ? "fas fa-arrow-left" : "fas fa-arrow-left invisibile"}></i>
             <span>Flashcard App</span></div>
           <div>
-            <span>{this.state.loggedIn ? "You are logged in" : ""}</span>
+            <span>{this.state.loggedIn ? "You are logged in" : "You are not logged in"}</span>
           </div>
         </div>
         {this.getBody()}
