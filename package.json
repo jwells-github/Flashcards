@@ -21,7 +21,8 @@
   "scripts": {
     "start": "cd server && node index.js",
     "server": "node-env-run server --exec nodemon",
-    "dev": "run-p server start",
+    "start-local":"react-scripts start",
+    "dev": "run-p server start-local",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
