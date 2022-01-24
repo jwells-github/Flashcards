@@ -98,7 +98,7 @@ class Flashcard extends Component {
                     <div className="mask"></div>
                         <div className="cardContainer">
                             <div className="flashcard" ref={this.FlashCardRef}  style={{transform: translateStyle}} onMouseDown={this.dragCard} onClick={this.state.commitedToDragging ? null : this.flipCard}>
-                                <div className={flashCardInnerClass}>
+                                <div data-testid='flashcardInner' className={flashCardInnerClass}>
                                     <div className="cardFront" >
                                         <span className="cardInfo">Front</span>
                                         <span className="cardText">{this.props.card.cardFront}</span>
@@ -112,10 +112,10 @@ class Flashcard extends Component {
                                 </div>
                             </div>
                             <div className="flashcardButtons">
-                                <div className={this.state.actionTaken ? "" : "buttonInactive"}>
+                                <div data-testid='buttonIncorrectDiv' className={this.state.actionTaken ? "" : "buttonInactive"}>
                                         <button className="buttonIncorrect" onClick={() => this.handleCardResult(false)}>Incorrect</button>
                                 </div>
-                                <div className={this.state.actionTaken ? "" : " buttonInactive"}>
+                                <div data-testid='buttonCorrectDiv' className={this.state.actionTaken ? "" : " buttonInactive"}>
                                     <button className="buttonCorrect" onClick={() => this.handleCardResult(true)}>Correct</button>
                                 </div>
                             </div>
