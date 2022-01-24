@@ -1,6 +1,6 @@
 const express = require('express');
+require('dotenv').config();
 const pino = require('express-pino-logger')();
-const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
@@ -10,8 +10,8 @@ const bcrypt = require('bcryptjs');
 const User = require('./models/user');
 const Flashcard = require('./models/flashcard');
 const path = require('path');
-dotenv.config();
-mongoose.connect(process.env.mongoDB);
+const { Console } = require('console');
+mongoose.connect(process.env.MONGO_DB);
 
 const app = express();
 app.use(express.urlencoded({extended: true})); 
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(pino);
 
 app.use(cookieParser());
-app.use(session({secret: process.env.sessionSecret, resave: false, saveUninitialized: true  }));
+app.use(session({secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true  }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -134,6 +134,6 @@ app.get('/api/greeting', (req, res) => {
   res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
 });
 
-app.listen(3001, () =>
+app.listen(8008, () =>
   console.log('Express server is running on localhost:3001')
 );
