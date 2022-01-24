@@ -143,6 +143,9 @@ class FlashcardMenu extends Component {
         this.setState({inDeckDetailView: true})
     }
     enterDeckDetialViewAllCards(){
+        if(this.state.flashcards.length.length < 1){
+            return;
+        }
         this.setState({
             selectedCards: this.state.flashcards, 
             inDeckDetailView: true, 
@@ -151,6 +154,9 @@ class FlashcardMenu extends Component {
         this.props.showBackButton();
     }
     playAllCards(){
+        if(this.state.flashcards.length.length < 1){
+            return;
+        }
         this.setState({deckSelected: true, selectedCards: this.state.flashcards, playMode: true})
         this.props.showBackButton();
     }

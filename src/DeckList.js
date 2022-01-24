@@ -41,8 +41,8 @@ class DeckList extends Component {
                     <div className="decks">
                         <div className="deckOptions">
                             <button onClick={this.showFlashcardForm}>Add a flashcard</button>
-                            <button onClick={this.props.playAllCards}>Play All</button>
-                            <button onClick={this.props.enterDeckDetialViewAllCards}>View All</button>
+                            <button disabled={this.props.decks.length < 1} onClick={this.props.playAllCards}>Play All</button>
+                            <button disabled={this.props.decks.length < 1} onClick={this.props.enterDeckDetialViewAllCards}>View All</button>
                             <input className="largeSearchbar" aria-label="deckSearch" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
                             <DeckSortOptions 
                                 decks={this.props.decks}
