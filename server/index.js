@@ -131,6 +131,6 @@ app.get('/api/greeting', (req, res) => {
   res.send(JSON.stringify({ greeting: `Hello ${name}!` }));
 });
 
-app.listen(8008, () =>
-  console.log('Express server is running on localhost:3001')
+app.listen(process.env.PORT || 8008, () =>
+  console.log('Express server is running on localhost:8008')
 );
