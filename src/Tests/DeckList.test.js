@@ -45,3 +45,23 @@ test('clicking add card will display the form overlay', () =>{
     userEvent.click(screen.getByRole('button', {name: 'Add a flashcard'}));
     expect(screen.getByRole('button', {name: 'Submit Card'})).toBeTruthy();
 })
+
+test('the Play All button will be disabled if there are no decks', () =>{
+    render(<DeckList decks={[]}/>);
+    expect(screen.getByRole('button', {name: 'Play All'})).toBeDisabled();
+})
+
+test('the Play All button will not be disabled if there are decks', () =>{
+    render(<DeckList decks={testDecks}/>);
+    expect(screen.getByRole('button', {name: 'Play All'})).not.toBeDisabled();
+})
+
+test('the View All button will be disabled if there are no decks', () =>{
+    render(<DeckList decks={[]}/>);
+    expect(screen.getByRole('button', {name: 'View All'})).toBeDisabled();
+})
+
+test('the View All button will not be disabled if there are decks', () =>{
+    render(<DeckList decks={testDecks}/>);
+    expect(screen.getByRole('button', {name: 'View All'})).not.toBeDisabled();
+})
