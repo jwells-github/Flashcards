@@ -11,6 +11,12 @@ function requestLogin(username, password){
       }).then(response => response.json())
 }
 
+function requestLogout(){
+    return fetch('/logout',{
+        withCredentials: true,
+        credentials: 'include'
+    })
+}
 function requestSignup(username, password){
     return fetch("/signup",{
         method: 'POST',
@@ -101,4 +107,4 @@ function requestEditDeck(oldDeckName, newDeckName){
 export {requestUser, requestDeleteCard, 
         requestEditCard, requestEditDeck,
         requestFlashcards, requestCreateFlashcard, 
-        requestLogin, requestSignup}
+        requestLogin, requestLogout, requestSignup}

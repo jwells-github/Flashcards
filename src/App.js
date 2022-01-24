@@ -3,7 +3,7 @@ import './Styles/Styles.css';
 import React, {Component} from 'react'
 import EntranceForm from './EntranceForm';
 import FlashcardMenu from './FlashcardMenu';
-import { requestUser } from './serverFetches';
+import { requestLogout, requestUser } from './serverFetches';
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class App extends Component {
     this.setGuestStatus = this.setGuestStatus.bind(this);
     this.showBackButton = this.showBackButton.bind(this);
     this.hideBackButton = this.hideBackButton.bind(this);
+    this.logout = this.logout.bind(this);
     this.getBody = this.getBody.bind(this);
   }
 
@@ -43,6 +44,14 @@ class App extends Component {
   historyBack(){
     window.history.back()
   }
+  logout(){
+    requestLogout();
+    this.setState({
+      loggedIn: false,
+      guestMode: false,
+      displayBackButton: false,
+    })
+  }
   getBody(){
     if(this.state.loggedIn || this.state.guestMode){
       return  <FlashcardMenu 
@@ -66,7 +75,7 @@ class App extends Component {
             <i onClick={this.historyBack} className={this.state.displayBackButton ? "fas fa-arrow-left" : "fas fa-arrow-left invisibile"}></i>
             <span>Flashcard App</span></div>
           <div>
-            <span>{this.state.loggedIn ? "You are logged in" : "You are not logged in"}</span>
+              {this.state.loggedIn || this.state.guestMode ? <button className='logoutButton' onClick={this.logout}>Log out</button> : ''}
           </div>
         </div>
         {this.getBody()}
