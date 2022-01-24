@@ -1,6 +1,5 @@
 const express = require('express');
 require('dotenv').config();
-const pino = require('express-pino-logger')();
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require('passport');
@@ -10,13 +9,11 @@ const bcrypt = require('bcryptjs');
 const User = require('./models/user');
 const Flashcard = require('./models/flashcard');
 const path = require('path');
-const { Console } = require('console');
 mongoose.connect(process.env.MONGO_DB);
 
 const app = express();
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json());
-app.use(pino);
 
 app.use(cookieParser());
 app.use(session({secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true  }));
