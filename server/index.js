@@ -9,7 +9,7 @@ require('./passport')(passport);
 const bcrypt = require('bcryptjs');
 const User = require('./models/user');
 const Flashcard = require('./models/flashcard');
-
+const path = require('path');
 dotenv.config();
 mongoose.connect(process.env.mongoDB);
 
@@ -22,6 +22,13 @@ app.use(cookieParser());
 app.use(session({secret: process.env.sessionSecret, resave: false, saveUninitialized: true  }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+app.use(express.static(path.join(__dirname, '../build')));
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
 
 app.post('/signup', (req,res,next) =>{
   User.findOne({'username': req.body.username}).then(existingUser =>{
