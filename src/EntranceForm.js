@@ -59,7 +59,7 @@ class EntranceForm extends Component {
               {this.getForm()}
               <p>{this.state.formError}</p>
             </div>
-            <div>
+            <div className='guestForm'>
               <button onClick={() => this.props.setGuestStatus(true)}>Demo the App in guest mode</button>
               <span>All data will be lost when session ends</span>
             </div>
