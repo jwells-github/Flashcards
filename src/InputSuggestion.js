@@ -8,7 +8,7 @@ class InputSuggestion extends Component {
         this.state = {
             filteredData: [],
             selectedSuggestion: -1, // -1 indicating no suggestion is selected
-            displaySuggestions: true,
+            displaySuggestions: false,
         };
         this.updateSuggestions = this.updateSuggestions.bind(this);
         this.useSuggestion = this.useSuggestion.bind(this);
