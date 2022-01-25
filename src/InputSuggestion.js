@@ -84,7 +84,7 @@ class InputSuggestion extends Component {
                 name={this.props.fieldName} type="text" 
                 value={this.props.InputValue} onChange={this.updateSuggestions} 
                 autoComplete="off"/>
-            <div className={this.state.displaySuggestions? "" : "hide"}>
+            <div className={this.state.displaySuggestions? "" : "hide"} data-testid='suggestionsContainer'>
                 <div className={this.state.filteredData.length > 0 ? "formSuggestion" : ""}>
                     {this.state.filteredData.slice(0,InputSuggestion.maxSuggestions).map((item, index) => 
                         <span
