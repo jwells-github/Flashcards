@@ -3,6 +3,7 @@ import React, {Component} from 'react'
 
 class InputSuggestion extends Component {
     static maxSuggestions = 5;
+    static suggestionDisplayTimeout = 300;
     constructor(props){
         super(props);
         this.state = {
@@ -30,7 +31,8 @@ class InputSuggestion extends Component {
         let upKey = event.key === "Up" || event.key === "ArrowUp"
         let enterKey = event.key === "Enter";
         if(downKey){
-            if(InputSuggestion.maxSuggestions <= this.state.selectedSuggestion ){
+            let max = this.state.filteredData.length < InputSuggestion.maxSuggestions ? this.state.filteredData.length : InputSuggestion.maxSuggestions
+            if(max   <= this.state.selectedSuggestion){
                 return;
             }
             this.setState(prevState =>({
