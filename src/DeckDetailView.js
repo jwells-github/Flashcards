@@ -116,7 +116,7 @@ class DeckDetailView extends Component {
             <div className="deckViewOptions">
                 <button onClick={this.props.playDeck}>Play Deck</button>
                 <button onClick={this.displayCreateCardForm}>Add a card</button>
-                <input className="largeSearchbar" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
+                <input aria-label="deckSearch" className="largeSearchbar" placeholder="Search..." onChange={this.handleChange} name="searchFilter" type="text"></input>
                 <button onClick={this.displayEditDeckNameForm}>Rename Deck</button>
                 <button>Delete Deck</button>
             </div>
@@ -141,8 +141,8 @@ class DeckDetailView extends Component {
                                 <td className='colCardBack'>{card.cardBack}</td>
                                 <td className={this.props.isDisplayingAllDecks ? 'colCardDeck' :'hide'} title={card.cardDeck}>{card.cardDeck}</td>
                                 <td className='colCardDate'>{new Date(card.dateCreated).toLocaleDateString('en-GB')}</td>
-                                <td className='colCardAction tableAction'><span onClick={()=>this.displayEditCardForm(card)}>Edit</span></td>
-                                <td className='colCardAction tableAction'><span onClick={()=>this.deleteCard(card)}>Delete</span></td>
+                                <td className='colCardAction tableAction'><button onClick={()=>this.displayEditCardForm(card)}>Edit</button></td>
+                                <td className='colCardAction tableAction'><button onClick={()=>this.deleteCard(card)}>Delete</button></td>
                             </tr>
                     )}  
                 </tbody>
