@@ -85,6 +85,7 @@ class InputSuggestion extends Component {
             <input onFocus={this.displaySuggestions} onBlur={this.hideSuggestions} onKeyDown={this.handleSuggestionInput}
                 name={this.props.fieldName} type="text" 
                 value={this.props.InputValue} onChange={this.updateSuggestions} 
+                aria-label="inputSuggestionField"
                 autoComplete="off"/>
             <div className={this.state.displaySuggestions? "" : "hide"} data-testid='suggestionsContainer'>
                 <div className={this.state.filteredData.length > 0 ? "formSuggestion" : ""}>
