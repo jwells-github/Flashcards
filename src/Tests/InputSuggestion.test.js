@@ -86,7 +86,7 @@ test('the suggestions field is displayed when the textbox is focused', () =>{
     expect(screen.getByTestId('suggestionsContainer')).not.toHaveClass('hide');
 });
 
-test('the suggestions field is hidden when the textbox is blurred', () =>{
+test('the suggestions field is hidden when the textbox is blurred', done =>{
     let testInputValue = "";
     render(
         <InputSuggestion 
@@ -97,7 +97,10 @@ test('the suggestions field is hidden when the textbox is blurred', () =>{
     );
     userEvent.click(screen.getByRole('textbox'));
     userEvent.click(screen.getByTestId('suggestionsContainer'));
-    setTimeout(() => expect(screen.getByTestId('suggestionsContainer')).toHaveClass('hide'), InputSuggestion.suggestionDisplayTimeout)
+    setTimeout(() => {
+        expect(screen.getByTestId('suggestionsContainer')).toHaveClass('hide')
+        done();
+    }, InputSuggestion.suggestionDisplayTimeout)
 });
 
 test('pressing the down arrow in the suggestion field will highlight the suggestion below',() =>{
